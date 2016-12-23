@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Loading...</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0"> 
+    <link rel="stylesheet" type="text/css" href="../css/jquery.ztree.style.css">
+	<script type="text/javascript" src="jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="jquery.ztree.core-3.5.min.js"></script>
+	<script type="text/javascript" src="jquery.ztree.excheck-3.5.min.js"></script>
+	<script type="text/javascript">
+		<!--
+		var nodeList = null, pageTree = null, hasParent = false, hasChecks = false, hasArea = true  ,level=-1;
+		nodeList=window.dialogArguments.split("@");
+		document.title=nodeList[0];
+		hasArea=nodeList[1]=='area'?true:false;  //是否是area
+		hasParent=nodeList[2]=='1'?true:false;
+		hasChecks=nodeList[3]=='1'?true:false;
+		level=nodeList[5];  //限制只能选择节点
+		nodeList[1]=nodeList[4]=='1'?("/yoolicar/common/tree"+nodeList[1]):("../json/zddm."+nodeList[1]+".json");
+		function getSetting(){
+			var setting = {
+				view: {
+					autoCancelSelected: false,
+					dblClickExpand: false,
+					expandSpeed: "",
+					fontCss: getFontCss,
+					selectedMulti: false,
+					showIcon: false,
+					showTitle: false
+				},
+				check: {
+					enable: hasChecks,
+					chkboxType: { "Y": "", "N": "" }
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					beforeClick: beforeClick,
+				}
+			};
+			return setting;
+		}
+		
+		function beforeClick(treeId, treeNode) {
+			var check = true;
+			if(level!=-1 && hasArea){
+				check = (treeNode && treeNode.level==level);
+				if (!check){
+					switch(parseInt(level))
+					{
+					case 0:
+					  	alert("只能选择省份...");
+					  break;
+					case 1:
+						alert("只能选择城市...");
+					  break;
+					case 2:
+						alert("只能选择地区...");
+					  break;
+					}
+				} 
+			}
+			return check;
+		}
+		
+		function getFontCss(treeId, treeNode) {
+			return (treeNode.highlight) ? {color:"#ff0000"} : {color:"#000000"};
+		}
+		function expandNodes(sIdx) {
+			var pNode=nodeList[sIdx].getParentNode();
+			if(pNode!=null && !pNode.open)
+				pageTree.expandNode(pNode, true, null, true, false);
+		}
+		function updateNodes(highlight) {
+			for(var i=0, l=nodeList.length; i<l; i++) {
+				nodeList[i].highlight = highlight;
+				pageTree.updateNode(nodeList[i],false);
+				if(highlight) expandNodes(i);
+			}
+		}
+		function searchNodes(){
+			var vKey=$.trim($("#searchKey").val());
+			if(vKey==null || vKey.length<1)
+				return;
+			updateNodes(false);
+			nodeList = pageTree.getNodesByParamFuzzy("name", $("#searchKey").val());
+			updateNodes(true);
+			alert("共搜索到 "+nodeList.length+" 个符合条件的字典项。"+(nodeList.length>0?"\r\n\r\n（请查看红色标记的字典项）":""));
+		}
+		function saveesNodes(){
+			if(hasChecks)
+				saveesChecked();
+			else
+				saveesSingled();		
+		}
+		function saveesSingled(){
+			var selNodes = pageTree.getSelectedNodes();
+			if(selNodes.length<1){
+				alert("未选择任何字典项。")
+				return false;
+			}
+			var _sVal=selNodes[0].id+"@";
+			if(hasParent){
+				var _pVal="",_pNod=selNodes[0];
+				while((_pNod=_pNod.getParentNode())!=null){
+					_pVal=_pNod.name+_pVal;
+				}
+				_sVal+=_pVal;
+			}
+			_sVal+=selNodes[0].name;
+			window.returnValue=_sVal;
+			window.close();
+		}
+		
+		function clearNodes(){
+			window.returnValue="@";
+			window.close();
+		}
+		
+		function saveesChecked(){
+			var selNodes = pageTree.getCheckedNodes(true);
+			if(selNodes.length<1){
+				alert("未选择任何字典项。")
+				return false;
+			}
+			var _sVal="",_sTxt="";
+			for (var i=0, l=selNodes.length; i<l; i++) {
+				_sVal += "," + selNodes[i].id;
+				_sTxt += ";" + selNodes[i].name;
+			}
+			window.returnValue=_sVal.substr(1)+"@"+_sTxt.substr(1);
+			window.close();
+		}
+		function loadingData(){
+			$("#searchKey").css("width",($(window).width()-200)+"px");
+			$(".divContent").css("height",($(window).height()-32)+"px");
+			$.getJSON(nodeList[1], null, function(xNodes){
+			    
+				nodeList = [];
+				$.fn.zTree.init($("#xTreeList"), getSetting(), xNodes);
+				pageTree = $.fn.zTree.getZTreeObj("xTreeList");
+				$(".divLoading").remove();
+				$(".divSearch").css("display","block");
+			});
+		}
+		$(document).ready(function(){
+			window.setTimeout(loadingData, 300);
+			
+			$("#searchKey").keydown(function(e) {
+               if (e.keyCode == 13)
+                   $(".searchBtn").click();
+            });
+		});
+		//-->
+	</script>
+  </head>
+  
+  <body>
+  	<div class="divSearch">
+	  	<table border="0">
+	  		<tr>
+	  			<td><input type="text" id="searchKey" value="" title="输入关键字进行搜索" /></td>
+	  			<td><button class="searchBtn" onclick="searchNodes();" title="搜索内容">搜索</button></td>
+	  			<td style="width:6px;"></td>
+	  			<td><button class="saveesBtn" onclick="saveesNodes();" title="保存选中的选项框">保存</button></td>
+	  			<td style="width:6px;"></td>
+	  			<td><button class="clearBtn" onclick="clearNodes();" title="清空输入框">清空</button></td>
+	  		</tr>
+	  	</table>
+  	</div>
+  	<div class="divLoading">
+		<img border="0" alt="Loading" src="../css/images/zTreeLoadings.gif" />
+  	</div>
+	<div class="divContent">
+		<ul id="xTreeList" class="ztree"></ul>
+	</div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 类型 -->
+	<typedef name="BooleanEnum" class="com.liyun.car.hibernate.type.EnumType">
+		<param name="enumClass">com.liyun.car.common.enums.BooleanEnum</param>
+	</typedef>
+	<typedef name="ParamStatusEnum" class="com.liyun.car.hibernate.type.EnumType">
+    	<param name="enumClass">com.liyun.car.common.enums.ParamStatusEnum</param>
+    </typedef>
+	<typedef name="MailTypeEnum" class="com.liyun.car.hibernate.type.EnumType">
+    	<param name="enumClass">com.liyun.car.report.enums.MailTypeEnum</param>
+    </typedef>
+	<typedef name="DataSourceTypeEnum" class="com.liyun.car.hibernate.type.EnumType">
+    	<param name="enumClass">com.liyun.car.report.enums.DataSourceTypeEnum</param>
+    </typedef>
+</hibernate-mapping>
+

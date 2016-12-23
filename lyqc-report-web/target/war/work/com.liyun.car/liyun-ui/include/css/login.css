@@ -1,0 +1,410 @@
+@charset 'utf-8';
+.content-bd {
+				position: relative;
+				width: 100%;
+			}
+			.page {
+				background-color: #fff;
+			}
+			.page .login-panel1 {
+				background-color: rgba(0, 74, 141, 0.8);
+				border: 1px solid #007bbb;
+				background-image: url("../image/login-bg.jpg");
+				border-radius: 4px;
+				box-shadow: 1px 1px 4px rgba(255, 255, 255, 0.9);
+				box-sizing: border-box;
+				display: block;
+				height: 350px;
+				margin: auto;
+				position: absolute;
+				right: 20%;
+				top: 51px;
+				width: 300px;
+				z-index: 1000;
+			}
+			h2 {
+				margin-bottom: 1px;
+				height: 55px;
+			}
+			.bottom-line {
+				border-bottom: 1px solid #005285;
+				padding: 0 20px;
+			}
+			.btn, .btn:hover, .login-formbg {
+				background: none repeat scroll 0 0 transparent;
+				border: 0 solid;
+				color: #fff;
+			}
+
+			.form-horizontal {
+				padding: 20px;
+				border-top: 1px solid #0092ae;
+			}
+
+			.form-horizontal .form-actions, .form-horizontal :first-child.controls, .form-horizontal .controls {
+				padding-left: 60px;
+			}
+			.form-horizontal .medium-margin {
+				margin-bottom: 39px;
+				*margin-bottom: 25px;
+			}
+			.form-horizontal .mini-margin {
+				margin-bottom: 20px;
+				*margin-bottom: 15px;
+			}
+			.form-horizontal .checkbox {
+				color: #fff;
+			}
+			legend + .control-group {
+				margin-top: -2px;
+				*margin-top: -40px;
+			}
+			.page .page-header, .page .page-footer {
+				border: 0;
+			}
+
+			.logo {
+				margin-left: 0%
+			}
+			.page-content{
+				min-height:300px;
+			}
+			.container {
+				display: block;
+				overflow: hidden;
+				position: relative;
+			}
+			.container .login-bgda {
+				/* height: 530px; */
+				overflow: hidden;
+			}
+			.login-bgda img {
+				max-width: none;
+			}
+			.page-header .row .span8 {
+				min-height: 10px;
+			}
+
+			h4 {
+				color: #fff;
+				margin: 0;
+			}
+			.input-medium {
+				width: 170px;
+			}
+			.link {
+				color: #fff;
+			}
+			.btn {
+				margin: 0 32px;
+			}
+
+			/*为实现图片剧中两边根据屏幕大小折叠效果*/
+			.container {
+				width: 100%;
+			}/*容器元素，宽度与浏览器宽度一致*/
+			.container .login-bgda {
+				padding-left: 10%;
+				/* padding-top:2%; */
+			}/*添加的父元素显示内容已50%起*/
+			.login-bgda img {
+				/* margin-left: -500px; */
+				width:78%;
+			} /*已元素本身的一半负值抵消夫元素50%使内容剧中显示*/
+
+			.log_header {
+			    background: #ffffff none repeat scroll 0 0;
+			    width: 100%;
+			    padding: 24px;
+			}
+			
+.wrap {
+    margin: 0;
+    position: relative;
+    width: 100%;
+}
+
+.cn_login_bg {
+    background: rgba(0, 0, 0, 0) repeat-x scroll 0 0;
+    display: inline-block;
+    height: 374px;
+    width: 100%;
+}
+.login_con {
+    margin: 0 auto;
+    padding: 100px 120px 0 0;
+    width: 880px;
+    z-index: 1000;
+}
+.login_info {
+    background: #f6f6f6 none repeat scroll 0 0;
+    border: 6px solid #a5a799;
+    width: 290px;
+}
+.right {
+    float: right;
+}
+.info_con {
+    padding: 0 22px 0px 20px;
+}
+.login_info p {
+    font-size: 12px;
+    line-height: 22px;
+}
+.login_info p, h2, p input {
+    color: #666;
+    width: 100%;
+}
+.clx::after {
+    clear: both;
+    color: #131313;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.log_yzm {
+    padding-bottom: 10px;
+}
+.left {
+    float: left;
+}
+.log_yzm .sp1 {
+    margin-top: -12px;
+    padding-left: 15px;
+}
+
+.log_btn a.lbtn {
+    background: #ff5b0b none repeat scroll 0 0;
+    border-radius: 2px;
+    color: #fff;
+    display: inline-block;
+    font-family: "微软雅黑";
+    font-size: 16px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 238px;
+}
+
+.clear {
+    clear: both;
+}
+.clear {
+    clear: both;
+    font-size: 1px;
+    height: 0;
+    line-height: 0;
+    margin: 0 auto;
+}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+    color: #000;
+    font-family: Tahoma,SimSun;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    font-family: "微软雅黑";
+}
+
+.login_info h2 {
+    border-bottom: 1px solid #bebebe;
+    color: #333;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 40px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+.login_info p, h2, p input {
+    color: #666;
+    width: 100%;
+}
+a {
+    color: #36c;
+    text-decoration: none;
+}
+.login_section_container {
+    height: 190px;
+    margin: 0 auto 25px;
+    width: 980px;
+}
+.noticeAll {
+    padding-left: 36px;
+    width: 273px;
+}
+.noticeAll, .applyAgency, .contactUs {
+    border-right: 1px solid #d1dbe4;
+    float: left;
+    height: 190px;
+}
+
+.applyAgency {
+    padding-left: 40px;
+    width: 305px;
+}
+.contactUs {
+    border-right: 0 none;
+    padding-left: 56px;
+    width: 320px;
+}
+
+.noticeAll h3, .applyAgency h3, .contactUs h3 {
+    height: 50px;
+    position: relative;
+}
+
+.noticeAll h3.noticeAll_tit div {
+    padding-left: 44px;
+}
+.noticeAll h3 .its_tit, .applyAgency h3 .its_tit, .contactUs h3 .its_tit {
+    font-family: "microsoft yahei";
+    font-size: 16px;
+    font-weight: normal;
+    padding: 2px 0 6px;
+}
+.noticeAll h3.noticeAll_tit em {
+    height: 38px;
+    width: 39px;
+}
+.noticeAll h3 em, .applyAgency h3 em, .contactUs h3 em {
+    background: rgba(0, 0, 0, 0) url("../image/sprite.gif") no-repeat scroll -20px -16px;
+    display: block;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+i, em {
+    font-style: normal;
+}
+.noticeAll h3.noticeAll_tit div {
+    padding-left: 44px;
+}
+.noticeAll h3 .its_eng_tit, .applyAgency h3 .its_eng_tit, .contactUs h3 .its_eng_tit {
+    color: #acacac;
+    font-family: "arial";
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 15px;
+}
+
+#noticeAll_nr {
+    padding-top: 10px;
+}
+body, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ul, ol, li, form, input, textarea, select {
+    margin: 0;
+    padding: 0;
+}
+#noticeAll_nr li {
+    height: 25px;
+    line-height: 15px;
+    overflow: hidden;
+    padding: 0 0 10px 16px;
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 234px;
+}
+li {
+    list-style: outside none none;
+}
+
+#noticeAll_nr li em {
+    background: rgba(0, 0, 0, 0) url("../image/sprite.gif") no-repeat scroll 0 -70px;
+    display: block;
+    height: 12px;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 1px;
+    width: 12px;
+}
+i, em {
+    font-style: normal;
+}
+
+#noticeAll_nr li a, #noticeAll_nr li span {
+    color: #838383;
+    text-decoration: none;
+}
+.applyAgency h3.applyAgency_tit em {
+    background-position: -20px -55px;
+    height: 33px;
+    top: 2px;
+    width: 47px;
+}
+.noticeAll h3 em, .applyAgency h3 em, .contactUs h3 em {
+    background: rgba(0, 0, 0, 0) url("../image/sprite.gif") no-repeat scroll -20px -16px;
+    display: block;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+.applyAgency h3.applyAgency_tit div {
+    padding-left: 52px;
+}
+.applyAgency p {
+    color: #848484;
+    line-height: 25px;
+    margin-right: 40px;
+    padding-top: 6px;
+    text-indent: 2em;
+}
+
+.contactUs h3.contactUs_tit em {
+    background-position: -20px -89px;
+    height: 34px;
+    top: 2px;
+    width: 37px;
+}
+.noticeAll h3 em, .applyAgency h3 em, .contactUs h3 em {
+    background: rgba(0, 0, 0, 0) url("../image/sprite.gif") no-repeat scroll -20px -16px;
+    display: block;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+.contactUs h3.contactUs_tit div {
+    padding-left: 42px;
+}
+.contactUs .small_tit {
+    color: #848484;
+    line-height: 15px;
+    padding-top: 10px;
+}
+
+.contactUs .its_telephone {
+    color: #386eb6;
+    font-family: "arial";
+    font-size: 24px;
+    line-height: 35px;
+}
+
+#online_ask {
+    background: rgba(0, 0, 0, 0) url("../image/sprite.gif") no-repeat scroll -19px -124px;
+    display: block;
+    height: 23px;
+    margin-top: 8px;
+    width: 81px;
+}
+a {
+    color: #3f7abe;
+    outline: medium none;
+    text-decoration: none;
+}
+ .ff {
+         color: white;
+     }
+     .tips{
+         color: red;
+     }
+     .tips_black{
+     	color:black;
+     }
+     .footer {
+    padding: 0 0 0px;
+    text-align: center;
+    margin-bottom:0px;
+    padding-bottom:0px;
+    background: #f0f4f7 none repeat scroll 0 0;
+    color:#15456f;
+}

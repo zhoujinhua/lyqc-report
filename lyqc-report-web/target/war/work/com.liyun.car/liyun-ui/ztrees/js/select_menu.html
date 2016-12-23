@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+	<TITLE> ZTREE DEMO - select menu</TITLE>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	 <link rel="stylesheet" type="text/css" href="../css/jquery.ztree.style.css">
+	<script type="text/javascript" src="jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="jquery.ztree.core-3.5.min.js"></script>
+	<!--  <script type="text/javascript" src="../../../js/jquery.ztree.excheck-3.5.js"></script>
+	  <script type="text/javascript" src="../../../js/jquery.ztree.exedit-3.5.js"></script>-->
+	<SCRIPT type="text/javascript">
+		var setting = {
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				beforeClick: beforeClick,
+				onClick: onClick
+			}
+		};
+
+		var zNodes =[
+			{id:1, pId:0, name:"上传贷前附件"},
+			{id:2, pId:0, name:"待上传贷后附件"}
+		 ];
+
+		function beforeClick(treeId, treeNode) {
+			var check = (treeNode && treeNode.level==0);
+			if (!check) alert("只能选择省份...");
+			return check;
+		}
+		
+		function onClick(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+			nodes = zTree.getSelectedNodes(),
+			v = "";
+			nodes.sort(function compare(a,b){return a.id-b.id;});
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			var cityObj = $("#citySel");
+			cityObj.attr("value", v);
+		}
+
+		function showMenu() {
+			var cityObj = $("#citySel");
+			var cityOffset = $("#citySel").offset();
+			$("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+
+			$("body").bind("mousedown", onBodyDown);
+		}
+		function hideMenu() {
+			$("#menuContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDown);
+		}
+		function onBodyDown(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+				hideMenu();
+			}
+		}
+
+		$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		});
+	</SCRIPT>
+	<style type="text/css">
+	ul.ztree {margin-top: 10px;border: 1px solid #617775;background: #f0f6e4;width:220px;height:360px;overflow-y:scroll;overflow-x:auto;}
+	</style>
+ </HEAD>
+
+<BODY>
+<h1>下拉菜单</h1>
+<h6>[ 文件路径: super/select_menu.html ]</h6>
+<div class="content_wrap">
+	<div class="zTreeDemoBackground left">
+		<ul class="list">
+			<li class="title">&nbsp;&nbsp;<span class="highlight_red">选择城市时，按下 Ctrl 或 Cmd 键可以进行多选</span></li>
+			<li class="title">&nbsp;&nbsp;城市：<input id="citySel" type="text" readonly value="" style="width:120px;"/>
+		&nbsp;<a id="menuBtn" href="#" onclick="showMenu(); return false;">选择</a></li>
+		</ul>
+	</div>
+</div>
+<table>
+	<tr>
+	<td>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+	<td>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+	<td>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+	<td>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+	<td>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+	<td>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+	<td>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+	<td>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+	<td>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+	</tr>
+</table>
+
+<div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+	<ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
+</div>
+</BODY>
+</HTML>
