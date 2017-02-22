@@ -6,7 +6,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 request.setAttribute("path", path);
 request.setAttribute("basePath", basePath);
 String id = request.getParameter("id");
-request.setAttribute("id", id);
+if(id != null && !"".equals(id)){
+	request.setAttribute("id", id);
+}
 String msg = request.getParameter("msg");
 request.setAttribute("msg", msg);
 %>
@@ -118,6 +120,7 @@ request.setAttribute("msg", msg);
 	                    <div class="form-group">
 	                        <label class="control-label col-sm-3">Sheet标题</label>
 	                        <div class="col-sm-5">
+	                        	<input type="hidden" name="reportInfo.id" value="${id }">
 	                        	<input class="form-control" name="sheetName" id="sheetName" maxlength="30">
 	                        </div>
 	                    </div>

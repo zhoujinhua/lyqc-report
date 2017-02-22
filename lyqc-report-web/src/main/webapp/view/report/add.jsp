@@ -92,6 +92,7 @@ request.setAttribute("basePath", basePath);
 		                        <label class="control-label col-sm-1">请选择验证脚本</label>
 		                        <div class="col-sm-3">
 	                       	 		<select class="form-control chosen required" name="reportDetail.id" id="report-detail-id" data-placeholder="请选择验证脚本" code="${info.reportDetail.id }">
+	                       	 			<option value="">--</option>
 	                       	 			<c:forEach items="${validDetails }" var="item">
 	                       	 				<option value="${item.id }">${item.titleName }</option>
 	                       	 			</c:forEach>
@@ -184,7 +185,7 @@ request.setAttribute("basePath", basePath);
 			}
 		});
 		$("#isValidate").on("change",function(evt,params){
-			var value = $("#isSendMail").val();
+			var value = $("#isValidate").val();
 			if(value == "1"){
 				$(".valid-content").removeClass("hide").show();
 			} else {

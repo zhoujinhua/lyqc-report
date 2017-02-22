@@ -116,7 +116,7 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 			
 			File file = null;
 			if(info.getIsGenExcel() == BooleanEnum.YES){
-				String fileName = PropertyUtil.getPropertyValue("EXCEL_FILE_PATH")+info.getReportName()+"_"+info.getId()+"_"+DateUtil.getDateFormatAll_(new Date())+".xlsx";
+				String fileName = /*PropertyUtil.getPropertyValue("EXCEL_FILE_PATH")*/"F:/"+info.getReportName()+"_"+info.getId()+"_"+DateUtil.getDateFormatAll_(new Date())+".xlsx";
 				file = getReportExcelResult(info, fileName);
 				task.setFilePath(fileName);
 				task.setFileName(file.getName());
@@ -188,31 +188,33 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 		
 		//1.处理数据
 		List<ReportInfoDetail> reportInfoDetails = info.getReportInfoDetails();
-		for(ReportInfoDetail infoDetail : reportInfoDetails){
-			ReportDetail detail = infoDetail.getReportDetail();
-			List<Object[]> list = new DBUtil(detail.getDataSource().getJdbcUrl(),detail.getDataSource().getUsername(),detail.getDataSource().getPassword()).getSqlResult(detail.getContent());//getSession().createNativeQuery(detail.getContent()).getResultList();
-			List<ReportField> reportFields = detail.getReportFields();
-			List<ReportField> tempFields = new ArrayList<ReportField>();
-			tempFields.addAll(reportFields);
-			if(detail.getIsSub() == BooleanEnum.YES){  //带细分字段
-				Map<Object,List<Object[]>> map = new HashMap<Object,List<Object[]>>();
-				ReportField field = detail.getReportField();
-				tempFields.remove(field);
-				for(Object[] obj : list){
-					Object key = obj[field.getSeq()-1];
-					if(!map.containsKey(key)){
-						map.put(key, new ArrayList<Object[]>());
-					}
+		if(reportInfoDetails!=null && !reportInfoDetails.isEmpty()){
+			for(ReportInfoDetail infoDetail : reportInfoDetails){
+				ReportDetail detail = infoDetail.getReportDetail();
+				List<Object[]> list = new DBUtil(detail.getDataSource().getJdbcUrl(),detail.getDataSource().getUsername(),detail.getDataSource().getPassword()).getSqlResult(detail.getContent());//getSession().createNativeQuery(detail.getContent()).getResultList();
+				List<ReportField> reportFields = detail.getReportFields();
+				List<ReportField> tempFields = new ArrayList<ReportField>();
+				tempFields.addAll(reportFields);
+				if(detail.getIsSub() == BooleanEnum.YES){  //带细分字段
+					Map<Object,List<Object[]>> map = new HashMap<Object,List<Object[]>>();
+					ReportField field = detail.getReportField();
+					tempFields.remove(field);
+					for(Object[] obj : list){
+						Object key = obj[field.getSeq()-1];
+						if(!map.containsKey(key)){
+							map.put(key, new ArrayList<Object[]>());
+						}
 						
-					Object[] result = ArrayUtils.delete(obj, (field.getSeq()-1));
-					map.get(key).add(result);
+						Object[] result = ArrayUtils.delete(obj, (field.getSeq()-1));
+						map.get(key).add(result);
+					}
+					for(Iterator<Object> iter = map.keySet().iterator();iter.hasNext();){
+						Object key = iter.next();
+						htmlSb.append(getHtmlContext(map.get(key), tempFields, key.toString()));
+					}
+				} else {
+					htmlSb.append(getHtmlContext(list,tempFields,detail.getTitleName()));
 				}
-				for(Iterator<Object> iter = map.keySet().iterator();iter.hasNext();){
-					Object key = iter.next();
-					htmlSb.append(getHtmlContext(map.get(key), tempFields, key.toString()));
-				}
-			} else {
-				htmlSb.append(getHtmlContext(list,tempFields,detail.getTitleName()));
 			}
 		}
 		
@@ -221,7 +223,7 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 
 	private void sendMail(ReportInfo info, File file, String content, ReportTask task) throws Exception{
 		if(info.getIsSendMail() == BooleanEnum.YES){
-			if(!validateReportMailSend(info.getReportDetail())){
+			if(info.getIsValidate() == BooleanEnum.YES && !validateReportMailSend(info.getReportDetail())){
 				throw new RuntimeException("未通过报表发送校验规则,发送被拒绝.");
 			}
 			

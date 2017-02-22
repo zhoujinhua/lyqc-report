@@ -53,10 +53,10 @@
             <one-to-many class="com.liyun.car.report.entity.ReportViewer" />
         </bag>
         
-        <many-to-one name="reportSender" class="com.liyun.car.report.entity.ReportSender" insert="true" update="true" outer-join="true">
+        <many-to-one name="reportSender" class="com.liyun.car.report.entity.ReportSender" lazy="false">
         	<column name="sender_id"></column>
         </many-to-one>
-        <many-to-one name="reportDetail" class="com.liyun.car.report.entity.ReportDetail" insert="true" update="true" outer-join="true">
+        <many-to-one name="reportDetail" class="com.liyun.car.report.entity.ReportDetail" lazy="false">
         	<column name="detail_id"></column>
         </many-to-one>
     </class>

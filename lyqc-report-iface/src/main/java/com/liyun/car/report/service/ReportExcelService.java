@@ -3,9 +3,10 @@ package com.liyun.car.report.service;
 import java.util.List;
 
 import com.liyun.car.common.entity.Page;
+import com.liyun.car.hibernate.service.HibernateService;
 import com.liyun.car.report.entity.ReportExcel;
 
-public interface ReportExcelService {
+public interface ReportExcelService extends HibernateService{
 	
 	public Page<ReportExcel> pageList(ReportExcel excel, int pn);
 	
@@ -20,4 +21,6 @@ public interface ReportExcelService {
 	public ReportExcel getEntityById(int id);
 
 	public void updateReportExcelContent(ReportExcel excel);
+
+	public void deleteExcel(ReportExcel excel);
 }

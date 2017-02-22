@@ -89,6 +89,7 @@ public class ReportExcelController {
 			logger.error("保存失败,",e);
 			request.setAttribute("excel", excel);
 		}
+		request.setAttribute("id", excel.getReportInfo().getId());
 		return "excel/list";
 	}
 	
@@ -96,5 +97,22 @@ public class ReportExcelController {
 	public String dialog(HttpServletRequest request,ReportExcel excel){
 		request.setAttribute("id", excel.getId());
 		return "excel/dialog";
+	}
+	
+	@RequestMapping("delete")
+	public String delete(HttpServletRequest request,ReportExcel excel){
+		String id = "";
+		try{
+			excel = reportExcelService.getEntityById(excel.getId());
+			id = excel.getReportInfo().getId() + "";
+			reportExcelService.deleteExcel(excel);
+			request.setAttribute("msg", "删除成功!");
+		} catch(Exception e){
+			logger.error("删除失败,",e);
+			request.setAttribute("msg", "删除失败,"+e.getMessage());
+			request.setAttribute("excel", excel);
+		}
+		request.setAttribute("id", id);
+		return "excel/list";
 	}
 }

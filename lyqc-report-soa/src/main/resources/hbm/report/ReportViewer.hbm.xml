@@ -13,10 +13,10 @@
         <property name="mailType" type="MailTypeEnum">
             <column name="mail_type" />
         </property>
-        <many-to-one name="mailViewer" class="com.liyun.car.report.entity.ReportMailViewer" insert="true" update="true" outer-join="true">
+        <many-to-one name="mailViewer" class="com.liyun.car.report.entity.ReportMailViewer" lazy="false">
         	<column name="viewer_id"></column>
         </many-to-one>
-        <many-to-one name="reportInfo" class="com.liyun.car.report.entity.ReportInfo" insert="true" update="true" outer-join="true">
+        <many-to-one name="reportInfo" class="com.liyun.car.report.entity.ReportInfo" lazy="false">
         	<column name="report_id"></column>
         </many-to-one>
     </class>

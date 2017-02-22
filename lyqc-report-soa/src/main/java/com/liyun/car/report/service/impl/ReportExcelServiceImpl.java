@@ -8,12 +8,13 @@ import org.springframework.stereotype.Service;
 import com.liyun.car.common.entity.Page;
 import com.liyun.car.common.enums.OperMode;
 import com.liyun.car.hibernate.hibernate.HibernateSupport;
+import com.liyun.car.hibernate.service.impl.HibernateServiceSupport;
 import com.liyun.car.report.entity.ReportExcel;
 import com.liyun.car.report.entity.ReportExcelDetail;
 import com.liyun.car.report.service.ReportExcelService;
 
 @Service
-public class ReportExcelServiceImpl extends HibernateSupport implements ReportExcelService {
+public class ReportExcelServiceImpl extends HibernateServiceSupport implements ReportExcelService {
 
 	@Override
 	public Page<ReportExcel> pageList(ReportExcel excel, int pn) {
@@ -66,6 +67,16 @@ public class ReportExcelServiceImpl extends HibernateSupport implements ReportEx
 			excelDetail.setReportExcel(excel);
 			reportExcel.getReportExcelDetails().add(excelDetail);
 		}
+	}
+
+	@Override
+	public void deleteExcel(ReportExcel excel) {
+		excel = getSession().find(ReportExcel.class, excel.getId());
+		excel.getReportInfo().getReportExcels().remove(excel);
+		excel.setReportInfo(null);
+		excel.getReportExcelDetails().clear();
+		
+		getSession().remove(excel);
 	}
 
 }

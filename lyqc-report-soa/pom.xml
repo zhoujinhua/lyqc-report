@@ -4,7 +4,7 @@
 
   <parent>
     <groupId>com.liyun.car</groupId>
-    <artifactId>liyun-parent</artifactId>
+    <artifactId>liyun-report-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>lyqc-report-soa</artifactId>

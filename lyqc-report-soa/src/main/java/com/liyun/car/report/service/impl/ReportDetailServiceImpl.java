@@ -96,8 +96,8 @@ public class ReportDetailServiceImpl extends HibernateSupport implements ReportD
 
 	@Override
 	public void deleteReportDetail(ReportDetail detail) {
-		ReportDetail reportDetail = getSession().find(ReportDetail.class, detail.getId());
-		reportDetail.getReportFields().clear();
+		detail = getSession().find(ReportDetail.class, detail.getId());
+		detail.getReportFields().clear();
 		
 		getSession().remove(detail);
 	}

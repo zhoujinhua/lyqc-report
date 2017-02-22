@@ -78,7 +78,7 @@ $(function() {
 		
 	});
 	$(document).delegate('.edit','click',function(){
-    	var id=$(this).data("data-id");
+    	var id=$(this).attr("data-id");
     	$("#add-excel-id").val(id);
     	
     	$("#sheetName").val($(this).parent().parent().find(".span-sheet-name").html());
@@ -86,7 +86,7 @@ $(function() {
     })
     $(document).delegate('.remove','click',function(){
     	var id = $(this).attr("data-id");
-  	    $.confirm("确定要执行报表吗？",function(ok){
+  	    $.confirm("确定要删除Sheet吗？",function(ok){
   		   if(ok){
   			   location.href = contextPath + "/excel/delete?id=" + id;
   		   }
@@ -99,41 +99,7 @@ $(function() {
 			title:"脚本设置",
 			width:$(window).width()*0.6,
 			height:$(window).height()*0.5,
-			modal:true/*,
-			buttons:[
-						{
-							name:"上移",		
-							cssClass:"btn-primary",
-							callback:function(){
-								var iframe = $(this).closest(".dialog").find("iframe")[0].contentWindow;
-								iframe.setValue();
-								$(".dialog-close").click();
-							}  
-						},{
-							name:"下移",		
-							cssClass:"btn-primary",
-							callback:function(){
-								var iframe = $(this).closest(".dialog").find("iframe")[0].contentWindow;
-								iframe.setValue();
-								$(".dialog-close").click();
-							}  
-						},{
-							name:"确定",		
-							cssClass:"btn-primary",
-							callback:function(){
-								var iframe = $(this).closest(".dialog").find("iframe")[0].contentWindow;
-								iframe.setValue();
-								$(".dialog-close").click();
-							}  
-						},
-	     				{
-	     					name:"取消",	
-	     					cssClass:"btn-default",
-	     					callback:function(){
-	     						$(".dialog-close").click();
-	     					}   
-	     				}
-	     			]*/
+			modal:true
 		});
    })
    $("#fn-content-btn").click(function(){
@@ -145,7 +111,6 @@ $(function() {
 	   table.ajax.reload();	
    });
    $("#fn-btn-add").click(function(){
-	   $("#add-excel-id").val("");
 	   $("#sheetName").val("");
 	   $("#sheet-add").modal();
    });
