@@ -38,6 +38,7 @@ import com.liyun.car.report.entity.ReportInfoDetail;
 import com.liyun.car.report.entity.ReportMailViewer;
 import com.liyun.car.report.entity.ReportTask;
 import com.liyun.car.report.entity.ReportViewer;
+import com.liyun.car.report.enums.DataSourceTypeEnum;
 import com.liyun.car.report.enums.MailTypeEnum;
 import com.liyun.car.report.quartz.QuartzUtil;
 import com.liyun.car.report.service.ReportInfoService;
@@ -88,7 +89,13 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 	}
 	
 	public boolean validateReportMailSend(ReportDetail detail) throws Exception{
-		List<Object[]> list = new DBUtil(detail.getDataSource().getJdbcUrl(),detail.getDataSource().getUsername(),detail.getDataSource().getPassword()).getSqlResult(detail.getContent());
+		String driverName = "";
+		if(detail.getDataSource().getType() == DataSourceTypeEnum.MYSQL){
+			driverName = "oracle.jdbc.driver.OracleDriver";
+		} else {
+			driverName = "com.mysql.jdbc.Driver";
+		}
+		List<Object[]> list = new DBUtil(driverName, detail.getDataSource().getJdbcUrl(),detail.getDataSource().getUsername(),detail.getDataSource().getPassword()).getSqlResult(detail.getContent());
 		
 		if(list!=null && !list.isEmpty()){
 			Object[] obj = list.get(0);
@@ -150,7 +157,14 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 			List<ReportExcelDetail> excelDetails = excel.getReportExcelDetails();
 			for(ReportExcelDetail excelDetail : excelDetails){
 				ReportDetail detail = excelDetail.getReportDetail();
-				List<Object[]> list = new DBUtil(detail.getDataSource().getJdbcUrl(),detail.getDataSource().getUsername(),detail.getDataSource().getPassword()).getSqlResult(detail.getContent());//getSession().createNativeQuery(detail.getContent()).getResultList();
+				String driverName = "";
+				if(detail.getDataSource().getType() == DataSourceTypeEnum.MYSQL){
+					driverName = "oracle.jdbc.driver.OracleDriver";
+				} else {
+					driverName = "com.mysql.jdbc.Driver";
+				}
+				
+				List<Object[]> list = new DBUtil(driverName, detail.getDataSource().getJdbcUrl(),detail.getDataSource().getUsername(),detail.getDataSource().getPassword()).getSqlResult(detail.getContent());//getSession().createNativeQuery(detail.getContent()).getResultList();
 				List<ReportField> reportFields = detail.getReportFields();
 				List<ReportField> tempFields = new ArrayList<ReportField>();
 				tempFields.addAll(reportFields);
@@ -191,7 +205,14 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 		if(reportInfoDetails!=null && !reportInfoDetails.isEmpty()){
 			for(ReportInfoDetail infoDetail : reportInfoDetails){
 				ReportDetail detail = infoDetail.getReportDetail();
-				List<Object[]> list = new DBUtil(detail.getDataSource().getJdbcUrl(),detail.getDataSource().getUsername(),detail.getDataSource().getPassword()).getSqlResult(detail.getContent());//getSession().createNativeQuery(detail.getContent()).getResultList();
+				String driverName = "";
+				if(detail.getDataSource().getType() == DataSourceTypeEnum.MYSQL){
+					driverName = "oracle.jdbc.driver.OracleDriver";
+				} else {
+					driverName = "com.mysql.jdbc.Driver";
+				}
+				
+				List<Object[]> list = new DBUtil(driverName, detail.getDataSource().getJdbcUrl(),detail.getDataSource().getUsername(),detail.getDataSource().getPassword()).getSqlResult(detail.getContent());//getSession().createNativeQuery(detail.getContent()).getResultList();
 				List<ReportField> reportFields = detail.getReportFields();
 				List<ReportField> tempFields = new ArrayList<ReportField>();
 				tempFields.addAll(reportFields);

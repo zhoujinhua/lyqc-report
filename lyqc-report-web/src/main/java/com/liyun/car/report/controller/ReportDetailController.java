@@ -21,6 +21,7 @@ import com.liyun.car.common.enums.ParamStatusEnum;
 import com.liyun.car.common.utils.StringUtils;
 import com.liyun.car.report.entity.ReportDataSource;
 import com.liyun.car.report.entity.ReportDetail;
+import com.liyun.car.report.enums.DataSourceTypeEnum;
 import com.liyun.car.report.service.ReportDataSourceService;
 import com.liyun.car.report.service.ReportDetailService;
 import com.liyun.car.report.utils.DBUtil;
@@ -74,8 +75,14 @@ public class ReportDetailController {
 			String content = request.getParameter("content");
 			String dataSourceId = request.getParameter("dataSourceId");
 			ReportDataSource dataSource = reportDataSourceService.getEntityById(Integer.parseInt(dataSourceId));
+			String driverName = "";
+			if(dataSource.getType() == DataSourceTypeEnum.MYSQL){
+				driverName = "oracle.jdbc.driver.OracleDriver";
+			} else {
+				driverName = "com.mysql.jdbc.Driver";
+			}
 			
-			List<String> list = new DBUtil(dataSource.getJdbcUrl(),dataSource.getUsername(),dataSource.getPassword()).getSqlColumn(content);
+			List<String> list = new DBUtil(driverName, dataSource.getJdbcUrl(),dataSource.getUsername(),dataSource.getPassword()).getSqlColumn(content);
 			pw.print(JSONArray.fromObject(list).toString());
 		} catch(Exception e){
 			JSONObject obj = JSONObject.fromObject("{\"msg\":\""+StringUtils.strFormatJson(e.getMessage())+"\"}");

@@ -21,9 +21,11 @@ public class DBUtil {
 	private String jdbcUrl;
 	private String username;
 	private String password;
+	private String driverName;
 	
-	public DBUtil(String jdbcUrl, String username, String password) {
+	public DBUtil(String driverName, String jdbcUrl, String username, String password) {
 		super();
+		this.driverName = driverName;
 		this.jdbcUrl = jdbcUrl;
 		this.username = username;
 		this.password = password;
@@ -33,7 +35,8 @@ public class DBUtil {
 		super();
 	}
 
-	public Connection getConnection() throws SQLException {
+	public Connection getConnection() throws SQLException, ClassNotFoundException {
+		Class.forName(driverName);
 		return DriverManager.getConnection(jdbcUrl,username,password);
 	}
 
@@ -285,5 +288,18 @@ public class DBUtil {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getDriverName() {
+		return driverName;
+	}
+
+	public void setDriverName(String driverName) {
+		this.driverName = driverName;
+	}
+
+	public static void main(String[] args) throws Exception {
+		Object o = new DBUtil("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@192.168.3.9:1521/lybi", "ly_dw", "ly_dw_prd").getSqlColumnAndResult("select * from ly_ods.CAR_SY_DEALER");
+		Object o1 = new DBUtil("com.mysql.jdbc.Driver","jdbc:mysql://192.168.2.99:3306/zhoufei?useUnicode=true&amp;characterEncoding=UTF-8", "root", "mysql****").getSqlColumnAndResult("select * from report_info");
 	}
 }
