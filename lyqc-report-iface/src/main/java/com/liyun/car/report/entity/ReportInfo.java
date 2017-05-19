@@ -21,6 +21,8 @@ public class ReportInfo implements Serializable{
 	private ParamStatusEnum status; //启用/停用
 	private BooleanEnum isSendMail; //是否发送邮件
 	private BooleanEnum isValidate; //发送前是否验证
+	private BooleanEnum isContent; //是否生成邮件正文
+	@JsonIgnore
 	private ReportDetail reportDetail; //验证脚本
 	private BooleanEnum isGenExcel; //是否发送excel附件
 	private String excelName; //excel名称
@@ -62,6 +64,12 @@ public class ReportInfo implements Serializable{
 	}
 	public void setStatus(ParamStatusEnum status) {
 		this.status = status;
+	}
+	public BooleanEnum getIsContent() {
+		return isContent;
+	}
+	public void setIsContent(BooleanEnum isContent) {
+		this.isContent = isContent;
 	}
 	public BooleanEnum getIsGenExcel() {
 		return isGenExcel;

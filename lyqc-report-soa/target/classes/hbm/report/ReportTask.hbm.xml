@@ -10,10 +10,10 @@
             <column name="id" />
 			<generator class="identity"></generator>
         </id>
-        <many-to-one name="reportInfo" class="com.liyun.car.report.entity.ReportInfo" lazy="false">
+        <many-to-one name="reportInfo" class="com.liyun.car.report.entity.ReportInfo" lazy="false" not-found="ignore">
         	<column name="report_id"></column>
         </many-to-one>
-        <many-to-one name="reportSender" class="com.liyun.car.report.entity.ReportSender" lazy="false">
+        <many-to-one name="reportSender" class="com.liyun.car.report.entity.ReportSender" lazy="false" not-found="ignore">
         	<column name="sender_id"></column>
         </many-to-one>
         <property name="htmlContent" type="java.lang.String">

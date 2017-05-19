@@ -299,7 +299,7 @@ public class DBUtil {
 	}
 
 	public static void main(String[] args) throws Exception {
-		Object o = new DBUtil("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@192.168.3.9:1521/lybi", "ly_dw", "ly_dw_prd").getSqlColumnAndResult("select * from ly_ods.CAR_SY_DEALER");
-		Object o1 = new DBUtil("com.mysql.jdbc.Driver","jdbc:mysql://192.168.2.99:3306/zhoufei?useUnicode=true&amp;characterEncoding=UTF-8", "root", "mysql****").getSqlColumnAndResult("select * from report_info");
+		Object o = new DBUtil("oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@192.168.3.9:1521/lybi", "ly_dw", "ly_dw_prd").getSqlColumnAndResult("select t.BRAND_NAME,t.SALE_AREA, t.kpi,t.live_dealer,t.all_dealer,t.live_rate,t.line_rate from ly_ods.KPI_0315 t");
+		System.out.println(o);
 	}
 }

@@ -3,6 +3,7 @@ package com.liyun.car.report.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import com.liyun.car.common.entity.Page;
@@ -51,7 +52,9 @@ public class ReportDetailServiceImpl extends HibernateSupport implements ReportD
 
 	@Override
 	public ReportDetail getEntityById(int  id) {
-		return (ReportDetail) getSession().find(ReportDetail.class, id);
+		ReportDetail reportDetail = (ReportDetail) getSession().find(ReportDetail.class, id);
+		Hibernate.initialize(reportDetail.getReportFields());
+		return reportDetail;
 	}
 
 	@Override

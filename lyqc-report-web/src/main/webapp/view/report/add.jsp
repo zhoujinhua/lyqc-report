@@ -79,6 +79,16 @@ request.setAttribute("basePath", basePath);
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
+		                        <label class="control-label send-mail col-sm-1">是否生成邮件正文</label>
+		                        <div class="col-sm-3">
+	                       	 		<select class="form-control chosen required" name="isContent" id="isContent" data-placeholder="请设置是否生成邮件正文" code="${info.isContent.value }">
+	                       	 			<c:forEach items="<%=BooleanEnum.values() %>" var="item">
+	                       	 				<option value="${item.value }">${item.name }</option>
+	                       	 			</c:forEach>
+	                       	 		</select>
+		                        </div>
+		                    </div>
+		                    <div class="form-group">
 		                        <label class="control-label col-sm-1">发送前是否验证</label>
 		                        <div class="col-sm-3">
 	                       	 		<select class="form-control chosen required" name="isValidate" id="isValidate" data-placeholder="请设置发送邮件前是否验证" code="${info.isValidate.value }">

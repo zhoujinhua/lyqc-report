@@ -19,6 +19,9 @@
         <property name="isSendMail" type="BooleanEnum">
             <column name="is_send_mail" />
         </property>
+        <property name="isContent" type="BooleanEnum">
+            <column name="is_content" />
+        </property>
         <property name="isValidate" type="BooleanEnum">
             <column name="is_validate" />
         </property>
@@ -53,10 +56,10 @@
             <one-to-many class="com.liyun.car.report.entity.ReportViewer" />
         </bag>
         
-        <many-to-one name="reportSender" class="com.liyun.car.report.entity.ReportSender" lazy="false">
+        <many-to-one name="reportSender" class="com.liyun.car.report.entity.ReportSender">
         	<column name="sender_id"></column>
         </many-to-one>
-        <many-to-one name="reportDetail" class="com.liyun.car.report.entity.ReportDetail" lazy="false">
+        <many-to-one name="reportDetail" class="com.liyun.car.report.entity.ReportDetail" fetch="select">
         	<column name="detail_id"></column>
         </many-to-one>
     </class>

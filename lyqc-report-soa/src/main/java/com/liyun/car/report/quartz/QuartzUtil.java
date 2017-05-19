@@ -74,7 +74,7 @@ public class QuartzUtil {
 		//获取trigger，即在spring配置文件中定义的 bean id="myTrigger"
 		CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
 		//表达式调度构建器
-		CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(reportInfo.getSendTime());
+		CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(reportInfo.getSendTime()).withMisfireHandlingInstructionDoNothing();
 		//按新的cronExpression表达式重新构建trigger
 		trigger = trigger.getTriggerBuilder().withIdentity(triggerKey)
 		.withSchedule(scheduleBuilder).build();
@@ -105,7 +105,7 @@ public class QuartzUtil {
 			scheduler.scheduleJob(jobDetail, trigger);
 		} else {
 			// trigger已存在，则更新相应的定时设置
-			CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(reportInfo.getSendTime());
+			CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(reportInfo.getSendTime()).withMisfireHandlingInstructionDoNothing();
 			// 按新的cronExpression表达式重新构建trigger
 			trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
 			// 按新的trigger重新设置job执行

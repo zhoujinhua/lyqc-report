@@ -37,7 +37,7 @@
         <property name="createTime" type="java.sql.Timestamp">
             <column name="create_time"/>
         </property>
-        <bag name="reportFields" lazy="false" cascade="all-delete-orphan" inverse="true" order-by="seq asc">
+        <bag name="reportFields" lazy="true" cascade="all-delete-orphan" inverse="true" order-by="seq asc">
             <key>
                 <column name="detail_id" not-null="true"/>
             </key>

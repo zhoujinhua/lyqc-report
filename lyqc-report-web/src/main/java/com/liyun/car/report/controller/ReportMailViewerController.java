@@ -57,7 +57,7 @@ public class ReportMailViewerController {
 	public String save(HttpServletRequest request , ReportMailViewer viewer){
 		try{
 			if(viewer.getId() != null){
-				mailViewerService.updateEntity(viewer,"sheetName");
+				mailViewerService.updateEntity(viewer,"userName", "status", "remark", "email");
 			} else {
 				viewer.setCreateTime(new Date());
 				mailViewerService.saveEntity(viewer);

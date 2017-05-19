@@ -17,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,7 @@ import com.liyun.car.report.entity.ReportViewer;
 import com.liyun.car.report.enums.DataSourceTypeEnum;
 import com.liyun.car.report.enums.MailTypeEnum;
 import com.liyun.car.report.quartz.QuartzUtil;
+import com.liyun.car.report.service.ReportDetailService;
 import com.liyun.car.report.service.ReportInfoService;
 import com.liyun.car.report.utils.DBUtil;
 import com.liyun.car.report.utils.MailSendUtil;
@@ -49,6 +51,9 @@ import com.liyun.car.report.utils.MailSendUtil;
 public class ReportInfoServiceImpl extends HibernateSupport implements ReportInfoService {
 
 	private Logger logger = LoggerFactory.getLogger(ReportInfoServiceImpl.class);
+	
+	@Autowired
+	private ReportDetailService reportDetailService;
 	
 	@Override
 	public Page<ReportInfo> pageList(ReportInfo info, int pn) {
@@ -118,12 +123,15 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 			info = getSession().find(ReportInfo.class, info.getId());
 			task.setReportInfo(info);
 			
-			String html = getReportHtmlResult(info);
-			task.setHtmlContent(html);
+			String html = "";
+			if(info.getIsContent() != null && info.getIsContent() == BooleanEnum.YES){
+				html = getReportHtmlResult(info);
+				task.setHtmlContent(html);
+			}
 			
 			File file = null;
 			if(info.getIsGenExcel() == BooleanEnum.YES){
-				String fileName = /*PropertyUtil.getPropertyValue("EXCEL_FILE_PATH")*/"F:/"+info.getReportName()+"_"+info.getId()+"_"+DateUtil.getDateFormatAll_(new Date())+".xlsx";
+				String fileName = PropertyUtil.getPropertyValue("EXCEL_FILE_PATH")+info.getReportName()+"_"+info.getId()+"_"+DateUtil.getDateFormatAll_(new Date())+".xlsx";
 				file = getReportExcelResult(info, fileName);
 				task.setFilePath(fileName);
 				task.setFileName(file.getName());
@@ -392,7 +400,14 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 
 	@Override
 	public void updateReportInfo(ReportInfo info) {
-		getSession().update(info,"reportName","status","isSendMail","excelName","isGenExcel","reportSender","sendTime","reportDetail","isValidate");
+		if(info.getReportDetail()!=null && info.getReportDetail().getId()!=null){
+			ReportDetail reportDetail = reportDetailService.getEntityById(info.getReportDetail().getId());
+			info.setReportDetail(reportDetail);
+			getSession().update(info,"reportName","status","isSendMail","excelName","isContent","isGenExcel","reportSender","sendTime","reportDetail","isValidate");
+		} else {
+			info.setReportDetail(null);
+			getSession().update(info,"reportName","status","isSendMail","excelName","isContent","isGenExcel","reportSender","sendTime","reportDetail","isValidate");
+		}
 		
 		ReportInfo reportInfo = getSession().find(ReportInfo.class, info.getId());
 		reportInfo.getReportViewers().clear();

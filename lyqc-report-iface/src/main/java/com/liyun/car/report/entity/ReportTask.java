@@ -21,6 +21,7 @@ public class ReportTask implements Serializable{
 	private String htmlContent;
 	private String filePath;
 	private Integer fileSize;
+	@JsonIgnore
 	private ReportSender reportSender;
 	
 	private String mailAddress = "";
