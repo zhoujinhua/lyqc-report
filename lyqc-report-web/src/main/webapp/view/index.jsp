@@ -10,7 +10,7 @@ request.setAttribute("basePath", basePath);
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>美利车金融-报表管理系统</title>
+    <title>联众金融-简易报表平台</title>
     <jsp:include page="common/head.jsp"></jsp:include>
 	<style type="text/css">
 		.popWindow {
@@ -81,8 +81,8 @@ request.setAttribute("basePath", basePath);
 <body>
     <div class="navbar navbar-default" role="navigation">
         <div class="navbar-inner">
-            <a class="navbar-brand" href="#"> 
-                <span>美利车金融 - 报表平台</span></a>
+            <a class="navbar-brand" href="#" style="width:240px;"> 
+                <span>联众金融-报表发送平台</span></a>
  
         </div>
     </div>
@@ -123,7 +123,7 @@ request.setAttribute("basePath", basePath);
         <div id="popWindow" class="popWindow" style="display: none;">
 		</div>
 		<div id="maskLayer" class="maskLayer" style="display: none;">
-			<img src="/lyqc-report/include/image/loading.gif" />
+			<img src="../include/image/loading.gif" />
 		</div>
         <div id="content" class="col-lg-10 col-sm-10">
         	<iframe id="sub-content" name="sub-content" onreadystatechange=stateChangeIE(this) onload=stateChangeFirefox(this) src="" style="width: 100%;height: 100%;border:none;" frameborder="0"></iframe>

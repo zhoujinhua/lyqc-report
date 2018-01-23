@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Hibernate;
+import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Service;
 
 import com.liyun.car.common.entity.Page;
@@ -20,7 +21,7 @@ public class ReportDetailServiceImpl extends HibernateSupport implements ReportD
 	@Override
 	public Page<ReportDetail> pageList(ReportDetail detail, int pn) {
 		if(detail!=null){
-			return getSession().getCriteria(ReportDetail.class).addRestriction(detail, OperMode.EQ, "status","titleName").getResultList(pn);
+			return getSession().getCriteria(ReportDetail.class).addRestriction(detail, OperMode.EQ, "status","titleName").addOrder(Order.desc("createTime")).getResultList(pn);
 		} else {
 			return getSession().getCriteria(ReportDetail.class).getResultList(pn);
 		}

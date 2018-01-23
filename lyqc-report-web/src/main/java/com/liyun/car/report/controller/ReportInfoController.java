@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.liyun.car.common.entity.Page;
 import com.liyun.car.common.enums.BooleanEnum;
 import com.liyun.car.common.enums.ParamStatusEnum;
+import com.liyun.car.report.dto.MessageDto;
 import com.liyun.car.report.entity.ReportDetail;
 import com.liyun.car.report.entity.ReportExcel;
 import com.liyun.car.report.entity.ReportInfo;
@@ -29,6 +30,7 @@ import com.liyun.car.report.service.ReportDetailService;
 import com.liyun.car.report.service.ReportInfoService;
 import com.liyun.car.report.service.ReportMailViewerService;
 import com.liyun.car.report.service.ReportSenderService;
+import com.liyun.car.report.utils.MessageUtil;
 
 @Controller
 @RequestMapping("report")
@@ -107,22 +109,19 @@ public class ReportInfoController {
 	}
 	
 	@RequestMapping("save")
-	public String save(HttpServletRequest request,ReportInfo info){
+	@ResponseBody
+	public MessageDto save(ReportInfo info){
 		try{
 			if(info.getId() == null){
 				reportInfoService.saveReportInfo(info);
 			} else {
 				reportInfoService.updateReportInfo(info);
 			}
-			request.setAttribute("msg", "保存成功!");
+			return MessageUtil.buildDto("00", "保存成功!");
 		} catch(Exception e){
-			request.setAttribute("msg", "保存失败!" + e.getMessage());
 			logger.error("保存失败,",e);
-			
-			request.setAttribute("info", info);
-			return "report/add";
+			return MessageUtil.buildDto("99", "保存失败," + e.getMessage());
 		}
-		return "report/list";
 	}
 	
 	@RequestMapping("exec")

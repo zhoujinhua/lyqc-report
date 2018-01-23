@@ -230,7 +230,21 @@ request.setAttribute("basePath", basePath);
 				$.alert("请务必设置脚本字段.");
 				return false;
 			}
-			$("#fn-search-form").submit();
+			$.ajax({
+				  type: 'POST',
+				  async:false,
+				  url: '${path }/content/save',
+				  data: $("#fn-search-form").serialize(),
+				  success: function(data){
+						if(data && data.code && data.code == "00"){
+							$.alert("保存成功!");
+							location.href="${path }/content/list";
+						} else {
+							$.alert(data.message);
+						}
+				  },
+				  dataType: 'json'
+			});
 		});
 		$("#fn-btn-field").click(function(){
 			var content = $("#content").val();

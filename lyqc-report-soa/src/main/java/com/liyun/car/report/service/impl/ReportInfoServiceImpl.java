@@ -9,11 +9,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Address;
+import javax.mail.SendFailedException;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.hibernate.criterion.Order;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +62,7 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 	@Override
 	public Page<ReportInfo> pageList(ReportInfo info, int pn) {
 		if(info!=null){
-			return getSession().getCriteria(ReportInfo.class).addRestriction(info, OperMode.EQ, "").getResultList(pn);
+			return getSession().getCriteria(ReportInfo.class).addRestriction(info, OperMode.EQ, "reportName").addOrder(Order.desc("createTime")).getResultList(pn);
 		} else {
 			return getSession().getCriteria(ReportInfo.class).getResultList(pn);
 		}
@@ -96,9 +100,9 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 	public boolean validateReportMailSend(ReportDetail detail) throws Exception{
 		String driverName = "";
 		if(detail.getDataSource().getType() == DataSourceTypeEnum.MYSQL){
-			driverName = "oracle.jdbc.driver.OracleDriver";
-		} else {
 			driverName = "com.mysql.jdbc.Driver";
+		} else {
+			driverName = "oracle.jdbc.driver.OracleDriver";
 		}
 		List<Object[]> list = new DBUtil(driverName, detail.getDataSource().getJdbcUrl(),detail.getDataSource().getUsername(),detail.getDataSource().getPassword()).getSqlResult(detail.getContent());
 		
@@ -118,6 +122,7 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 	@Async
 	public void saveReportExecResult(ReportInfo info , boolean sendMail) throws Exception{
 		ReportTask task = new ReportTask();
+		task.setExecTime(new Date());
 		
 		try{
 			info = getSession().find(ReportInfo.class, info.getId());
@@ -138,7 +143,6 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 				task.setFileSize(Integer.parseInt(file.length()+""));
 			}
 			
-			task.setExecTime(new Date());
 			if(sendMail){
 				sendMail(info, file, html.toString(), task);
 			}
@@ -167,9 +171,9 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 				ReportDetail detail = excelDetail.getReportDetail();
 				String driverName = "";
 				if(detail.getDataSource().getType() == DataSourceTypeEnum.MYSQL){
-					driverName = "oracle.jdbc.driver.OracleDriver";
-				} else {
 					driverName = "com.mysql.jdbc.Driver";
+				} else {
+					driverName = "oracle.jdbc.driver.OracleDriver";
 				}
 				
 				List<Object[]> list = new DBUtil(driverName, detail.getDataSource().getJdbcUrl(),detail.getDataSource().getUsername(),detail.getDataSource().getPassword()).getSqlResult(detail.getContent());//getSession().createNativeQuery(detail.getContent()).getResultList();
@@ -215,9 +219,9 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 				ReportDetail detail = infoDetail.getReportDetail();
 				String driverName = "";
 				if(detail.getDataSource().getType() == DataSourceTypeEnum.MYSQL){
-					driverName = "oracle.jdbc.driver.OracleDriver";
-				} else {
 					driverName = "com.mysql.jdbc.Driver";
+				} else {
+					driverName = "oracle.jdbc.driver.OracleDriver";
 				}
 				
 				List<Object[]> list = new DBUtil(driverName, detail.getDataSource().getJdbcUrl(),detail.getDataSource().getUsername(),detail.getDataSource().getPassword()).getSqlResult(detail.getContent());//getSession().createNativeQuery(detail.getContent()).getResultList();
@@ -280,6 +284,16 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 				
 				task.setIsMailSuccess(BooleanEnum.YES);
 				task.setMailMessage("发送成功!");
+			} catch(SendFailedException  se) {
+				se.printStackTrace();
+				Address[] unsend = se.getValidUnsentAddresses();   
+	            if(null != unsend) {
+	            	List<String> validAddrList = new ArrayList<>();
+	                for(int i=0;i<unsend.length;i++){  
+	                	validAddrList.add(unsend[i].toString());
+	                }  
+	                new MailSendUtil(info.getReportName(), content, validAddrList, null, attachments, info.getReportSender().getEmail(), info.getReportSender().getPassword()).send();  
+	            }
 			} catch(Exception e){
 				task.setIsMailSuccess(BooleanEnum.NO);
 				task.setMailMessage(e.getMessage());
@@ -289,25 +303,24 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 	}
 	
 	private StringBuffer getHtmlContext(List<Object[]> list, List<ReportField> reportFields, String titleName) {
-		StringBuffer sb = new StringBuffer("<table style='border-collapse: collapse;width:auto;' cellspacing='0' cellpadding='0' border='0' width='612'>");
-		sb.append("<colgroup><col style='mso-width-source:userset;mso-width-alt:3754;width:88pt' width='117'><col style='mso-width-source:userset;mso-width-alt:3157;width:74pt' width='99' span='5'></colgroup>");
+		StringBuffer sb = new StringBuffer("<div style='width:100%'><table style='width:910.85pt;margin-left:.5pt;border-collapse:collapse;' cellspacing='0' cellpadding='0' border='0' width='1214'>");
 		sb.append("<tbody>");
 		getHtmlBody(sb, list, reportFields, titleName);
-		sb.append("</tbody></table>");
+		sb.append("</tbody></table></div>");
 		
 		return sb;
 	}
 	
 	public void getExcelBody(Sheet sheet,List<Object[]> list, List<ReportField> reportFields ,String titleName){
 		int num = sheet.getLastRowNum();
-		Row row=sheet.createRow((short)(num+2));
+		Row row=sheet.createRow((num+2));
 		
 		
 		Cell titleCell = row.createCell(0, 0);
 		titleCell.setCellType(XSSFCell.CELL_TYPE_STRING);
 		titleCell.setCellValue(titleName);
 		
-		row = sheet.createRow((short)(num+3));
+		row = sheet.createRow((num+3));
 		for(int i = 0;i<reportFields.size();i++){
 			sheet.setColumnWidth(i, 20*256);
 			Cell cell = row.createCell(i, 0);
@@ -316,7 +329,7 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 		}
 		
 		for(int i = 0;i<list.size();i++){
-			row = sheet.createRow((short)(num + i + 4));
+			row = sheet.createRow((num + i + 4));
 			Object[] array = (Object[]) list.get(i);
 			for(int j = 0;j<array.length;j++){
 				Cell cell = row.createCell(j);
@@ -327,14 +340,14 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
 	}
 	
 	public StringBuffer getHtmlBody(StringBuffer sb,List<Object[]> list, List<ReportField> reportFields, String titleName){
-		sb.append("<tr class='firstRow'>");
-		sb.append("<td style='word-break: break-all;padding-top:20px;' width='240' valign='top'>" + titleName +"</td>");
+		sb.append("<tr style='height:13.5pt'>");
+		sb.append("<td style='width:153.65pt;border-top:solid windowtext 1.0pt;border-left:solid windowtext 1.0pt;border-bottom:solid black 1.0pt;border-right:double black 2.25pt;padding:0cm 5.4pt 0cm 5.4pt;height:12.75pt' valign='top'>" + titleName +"</td>");
 		sb.append("<td style='word-break: break-all;' rowspan='1' colspan='5' width='746' valign='top'></td>");
 		
 		StringBuffer titleSb = new StringBuffer("<tr>");
 		for(int i = 0; i<reportFields.size();i++){
 			if(i == 0){
-				titleSb.append("<td style='word-break: break-all;' width='240' valign='top'>"+reportFields.get(i).getDeclaredName()+"</td>");
+				titleSb.append("<td style='width:71.8pt;border:none;border-right:solid windowtext 1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:13.5pt;' width='240' valign='top'>"+reportFields.get(i).getDeclaredName()+"</td>");
 			} else {
 				titleSb.append("<td width='140' valign='top'>"+reportFields.get(i).getDeclaredName()+"</td>");
 			}

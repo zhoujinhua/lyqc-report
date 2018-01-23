@@ -56,7 +56,7 @@ request.setAttribute("basePath", basePath);
 	                        <div class="form-group">
 	                            <label class="col-sm-1 control-label" >连接字符串 </label>
 	                            <div class="col-sm-8">
-	                                <input type="text"  class="form-control required" name="jdbcUrl" maxlength="100" placeholder="100个字符以内" value="${dataSource.jdbcUrl }"/>
+	                                <input type="text"  class="form-control required" name="jdbcUrl" maxlength="150" placeholder="150个字符以内" value="${dataSource.jdbcUrl }"/>
 	                            </div>
 	                        </div>
 	                        <div class="form-group">
@@ -90,7 +90,8 @@ request.setAttribute("basePath", basePath);
 	                        <div class="form-group">
 			                     <div class="col-sm-12">
 				                    <p class="center-block">
-				                        <a href="#" class="btn btn-default btn-mini" id="fn-btn-save"><i class="glyphicon glyphicon-add"></i> 保存</a>
+				                        <a href="#" class="btn btn-default btn-mini" id="fn-btn-test"><i class="glyphicon glyphicon-add"></i> 测试连接</a>
+				                        <a href="#" class="btn btn-primary btn-mini" id="fn-btn-save"><i class="glyphicon glyphicon-add"></i> 保存</a>
 				                    </p>
 				                </div>
 			                </div>
@@ -119,6 +120,22 @@ request.setAttribute("basePath", basePath);
 		});
 	}
 	$(function(){
+		$("#fn-btn-test").click(function(){
+			$.ajax({			
+			  type: 'POST',
+			  url: '${pageContext.request.contextPath}/dataSource/test',
+			  data: $("#fn-search-form").serialize(),
+			  success: function(data){
+				  console.log(data);
+				  if(data.responseCode == 1){
+					  $.alert("测试成功!");
+				  } else {
+					  $.alert(data.responseMsg);
+				  }
+			  },
+			  dataType:"json"
+			});
+		});
 		$("#fn-btn-save").click(function(){
 			if($(".error").length!=0){
 				$(".error").fieldErrorClear();
@@ -137,7 +154,21 @@ request.setAttribute("basePath", basePath);
 			if($(".error").length!=0){
 				return false;
 			}
-			$("#fn-search-form").submit();
+			$.ajax({
+				  type: 'POST',
+				  async:false,
+				  url: '${path }/dataSource/save',
+				  data: $("#fn-search-form").serialize(),
+				  success: function(data){
+						if(data && data.code && data.code == "00"){
+							$.alert("保存成功!");
+							location.href="${path }/dataSource/list";
+						} else {
+							$.alert(data.message);
+						}
+				  },
+				  dataType: 'json'
+			});
 		});
 		
 		init();

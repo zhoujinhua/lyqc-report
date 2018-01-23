@@ -2,6 +2,7 @@ package com.liyun.car.report.service.impl;
 
 import java.util.List;
 
+import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Service;
 
 import com.liyun.car.common.entity.Page;
@@ -16,7 +17,7 @@ public class ReportTaskServiceImpl extends HibernateSupport implements ReportTas
 	@Override
 	public Page<ReportTask> pageList(ReportTask task, int pn) {
 		if(task!=null){
-			return getSession().getCriteria(ReportTask.class).addRestriction(task, OperMode.EQ, "reportInfo.reportName").getResultList(pn);
+			return getSession().getCriteria(ReportTask.class).addRestriction(task, OperMode.EQ, "reportInfo.reportName").addOrder(Order.desc("execTime")).getResultList(pn);
 		} else {
 			return getSession().getCriteria(ReportTask.class).getResultList(pn);
 		}

@@ -4,10 +4,10 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <dependent-module archiveName="lyqc-report-soa-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/lyqc-report-soa/lyqc-report-soa">
+        <dependent-module archiveName="lyqc-report-soa-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/lyqc-report-soa/lyqc-report-soa">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="lyqc-report-iface-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/lyqc-report-iface/lyqc-report-iface">
+        <dependent-module archiveName="lyqc-report-iface-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/lyqc-report-iface/lyqc-report-iface">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module deploy-path="/" handle="module:/overlay/var/M2_REPO/com/liyun/car/liyun-ui/0.0.1-SNAPSHOT/liyun-ui-0.0.1-SNAPSHOT.war?unpackFolder=target/m2e-wtp/overlays&amp;includes=**/**&amp;excludes=META-INF/MANIFEST.MF">

@@ -19,12 +19,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.liyun.car.common.entity.Page;
 import com.liyun.car.common.enums.ParamStatusEnum;
 import com.liyun.car.common.utils.StringUtils;
+import com.liyun.car.report.dto.MessageDto;
 import com.liyun.car.report.entity.ReportDataSource;
 import com.liyun.car.report.entity.ReportDetail;
 import com.liyun.car.report.enums.DataSourceTypeEnum;
 import com.liyun.car.report.service.ReportDataSourceService;
 import com.liyun.car.report.service.ReportDetailService;
 import com.liyun.car.report.utils.DBUtil;
+import com.liyun.car.report.utils.MessageUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -77,9 +79,9 @@ public class ReportDetailController {
 			ReportDataSource dataSource = reportDataSourceService.getEntityById(Integer.parseInt(dataSourceId));
 			String driverName = "";
 			if(dataSource.getType() == DataSourceTypeEnum.MYSQL){
-				driverName = "oracle.jdbc.driver.OracleDriver";
-			} else {
 				driverName = "com.mysql.jdbc.Driver";
+			} else {
+				driverName = "oracle.jdbc.driver.OracleDriver";
 			}
 			
 			List<String> list = new DBUtil(driverName, dataSource.getJdbcUrl(),dataSource.getUsername(),dataSource.getPassword()).getSqlColumn(content);
@@ -91,21 +93,19 @@ public class ReportDetailController {
 	}
 	
 	@RequestMapping("save")
-	public String save(HttpServletRequest request ,ReportDetail detail){
+	@ResponseBody
+	public MessageDto save(ReportDetail detail){
 		try {
 			if(detail.getId()!=null){
 				reportDetailService.updateReportDetail(detail);
 			} else {
 				reportDetailService.saveReportDetail(detail);
 			}
-			request.setAttribute("msg", "保存成功");
-			return "content/list";
+			return MessageUtil.buildDto("00", "保存成功!");
 		} catch(Exception e){
 			logger.error("脚本设置失败.",e);
-			request.setAttribute("msg", "保存失败,"+e.getMessage());
 			
-			request.setAttribute("detail", detail);
-			return "content/add";
+			return MessageUtil.buildDto("99", "保存失败," + e.getMessage());
 		}
 	}
 	

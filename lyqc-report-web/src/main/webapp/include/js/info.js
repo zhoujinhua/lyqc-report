@@ -25,35 +25,29 @@ $(function() {
 		"aoColumns" : [{
 					"mData" : "reportName",
 					"orderable" : true, // 禁用排序
-					"sDefaultContent" : "",
-					"sWidth" : "15%",
+					"sDefaultContent" : ""
 					
 				}, {
 					"mData" : "isSendMail",
 					"orderable" : false, // 禁用排序
-					"sDefaultContent" : "",
-					"sWidth" : "10%"
+					"sDefaultContent" : ""
 				},{
 					"mData" : "isGenExcel",
 					"orderable" : false, // 禁用排序
-					"sDefaultContent" : "",
-					"sWidth" : "10%"
+					"sDefaultContent" : ""
 				}, {
 					"mData" : "status",
 					"orderable" : false, // 禁用排序
-					"sDefaultContent" : "",
-					"sWidth" : "10%"
+					"sDefaultContent" : ""
 				},{
 					"mData" : "sendTime",
 					"orderable" : false, // 禁用排序
-					"sDefaultContent" : "",
-					"sWidth" : "25%"
+					"sDefaultContent" : ""
 				},
 				{
 					"mData" : "createTime",
 					"orderable" : false, // 禁用排序
 					"sDefaultContent" : "",
-					"sWidth" : "15%",
 					"render" : function(data, type, full, meta) {
 						return  moment(data).format("YYYY-MM-DD HH:mm:ss");
 					}
@@ -62,7 +56,6 @@ $(function() {
 					"mData" : "id",
 					"orderable" : false, // 禁用排序
 					"sDefaultContent" : '',
-					"sWidth" : "14%",
 				    "render":function(data, type, full, meta){
 				    	var html = '<a class="link edit" data-id='+data+' href="javascript:;">修改</a>';
 				    	html += '    <a class="link set-content" data-id='+data+' href="javascript:;">脚本配置</a>';
@@ -127,8 +120,8 @@ $(function() {
 	   $.open({
 			url:contextPath + "/report/dialog?id="+id ,
 			title:"脚本设置",
-			width:$(window).width()*0.6,
-			height:$(window).height()*0.5,
+			width:$(window).width()*0.8,
+			height:$(window).height(),
 			modal:true
 		});
    })

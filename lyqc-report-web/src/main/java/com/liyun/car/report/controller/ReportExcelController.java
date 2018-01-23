@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.liyun.car.common.entity.Page;
+import com.liyun.car.core.utils.ReturnUitl;
 import com.liyun.car.report.entity.ReportDetail;
 import com.liyun.car.report.entity.ReportExcel;
 import com.liyun.car.report.entity.ReportExcelDetail;
@@ -77,7 +78,7 @@ public class ReportExcelController {
 	}
 	
 	@RequestMapping("save")
-	public String save(HttpServletRequest request , ReportExcel excel){
+	public void save(HttpServletRequest request, HttpServletResponse response, ReportExcel excel){
 		try{
 			if(excel.getId() != null){
 				reportExcelService.updateEntity(excel,"sheetName");
@@ -85,12 +86,11 @@ public class ReportExcelController {
 				excel.setCreateTime(new Date());
 				reportExcelService.saveEntity(excel);
 			}
+			ReturnUitl.write(response, 1);
 		} catch(Exception e){
 			logger.error("保存失败,",e);
-			request.setAttribute("excel", excel);
+			ReturnUitl.write(response, 0, "保存失败,"+e.getMessage());
 		}
-		request.setAttribute("id", excel.getReportInfo().getId());
-		return "excel/list";
 	}
 	
 	@RequestMapping("dialog")

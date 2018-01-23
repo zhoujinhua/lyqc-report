@@ -23,6 +23,8 @@
 <script src="${path }/include/js/dialog.js" type="text/javascript"></script>
 <script src="${path }/include/js/validator-helper.js" type="text/javascript"></script>
 <script src="${path }/include/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+<script src="${path}/include/weblib/ace/js/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="${path}/include/weblib/beautify/beautify.js" type="text/javascript" charset="utf-8"></script>
 <style type="text/css">
   	a{
 	text-decoration:none;
@@ -35,7 +37,4 @@ li{
   </style>
 <script type="text/javascript">
 	var contextPath = "${pageContext.request.contextPath}";
-	/* var href = parent.top.$("#bs-css").attr("href");
-	href = href.substring(href.indexOf("/"),href.length);
-	$("#sub-bs-css").attr("href","${path}"+href); */
 </script>

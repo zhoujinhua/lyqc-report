@@ -26,18 +26,15 @@ $(function() {
 					"mData" : "id",
 					"orderable" : true, // 禁用排序
 					"sDefaultContent" : "",
-					"sWidth" : "5%",
 					
 				}, {
 					"mData" : "titleName",
 					"orderable" : false, // 禁用排序
 					"sDefaultContent" : "",
-					"sWidth" : "10%"
 				}, {
 					"mData" : "isValidate",
 					"orderable" : false, // 禁用排序
 					"sDefaultContent" : "",
-					"sWidth" : "10%",
 					"render" : function(data, type, full, meta) {
 						if(data == "YES"){
 							return "验证脚本";
@@ -48,7 +45,6 @@ $(function() {
 					"mData" : "content",
 					"orderable" : false, // 禁用排序
 					"sDefaultContent" : "",
-					"sWidth" : "55%",
 					"render":function(data, type, full, meta){
 						var temp = "";
 						if(data.length > 100){
@@ -67,7 +63,6 @@ $(function() {
 					"mData" : "createTime",
 					"orderable" : false, // 禁用排序
 					"sDefaultContent" : "",
-					"sWidth" : "10%",
 					"render" : function(data, type, full, meta) {
 						return  moment(data).format("YYYY-MM-DD HH:mm:ss");
 					}
@@ -76,7 +71,6 @@ $(function() {
 					"mData" : "id",
 					"orderable" : false, // 禁用排序
 					"sDefaultContent" : '',
-					"sWidth" : "10%",
 				    "render":function(data, type, full, meta){
 				    	return	data='<a class="edit" data-id='+data+' href="javascript:;">修改</a> <a class="remove" data-id='+data+' href="javascript:;">删除</a>';
 				    }	

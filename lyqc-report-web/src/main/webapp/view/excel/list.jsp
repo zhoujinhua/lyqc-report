@@ -120,13 +120,13 @@ request.setAttribute("msg", msg);
 	                    <div class="form-group">
 	                        <label class="control-label col-sm-3">Sheet标题</label>
 	                        <div class="col-sm-5">
-	                        	<input type="hidden" name="reportInfo.id" value="${id }">
+	                        	<input type="hidden" name="reportInfo.id" value="${id }" id="reportId">
+			                	<input type="hidden" name="id" id="add-excel-id">
 	                        	<input class="form-control" name="sheetName" id="sheetName" maxlength="30">
 	                        </div>
 	                    </div>
 	                </div>
 	                <div class="modal-footer">
-	                	<input type="hidden" name="id" id="add-excel-id">
 	                    <button type="button" class="btn btn-primary" id="fn-sheet-btn">确认</button>
 	                </div>
 	            </div>
@@ -144,5 +144,5 @@ request.setAttribute("msg", msg);
         }); */
     </script>
     <%-- <script type="text/javascript" src="${path }/include/js/chosen-pri.js"></script> --%>
-    <script type="text/javascript" src="${path }/include/js/excel.js"></script>
+    <script type="text/javascript" src="${path }/include/js/excel.js?a=3"></script>
 </html>

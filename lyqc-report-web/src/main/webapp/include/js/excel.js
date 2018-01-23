@@ -26,13 +26,11 @@ $(function() {
 					"mData" : "id",
 					"orderable" : true, // 禁用排序
 					"sDefaultContent" : "",
-					"sWidth" : "10%",
 					
 				}, {
 					"mData" : "sheetName",
 					"orderable" : false, // 禁用排序
 					"sDefaultContent" : "",
-					"sWidth" : "50%",
 					"render" : function(data, type, full, meta) {
 						return data = "<span class='span-sheet-name hide'>"+data+"</span>"+data
 					}
@@ -41,7 +39,6 @@ $(function() {
 					"mData" : "createTime",
 					"orderable" : false, // 禁用排序
 					"sDefaultContent" : "",
-					"sWidth" : "30%",
 					"render" : function(data, type, full, meta) {
 						return  moment(data).format("YYYY-MM-DD HH:mm:ss");
 					}
@@ -50,7 +47,6 @@ $(function() {
 					"mData" : "id",
 					"orderable" : false, // 禁用排序
 					"sDefaultContent" : '',
-					"sWidth" : "10%",
 				    "render":function(data, type, full, meta){
 				    	var html = '<a class="link set-content" data-id='+data+' href="javascript:;">设置脚本</a>';
 				    	html += ' <a class="link edit" data-id='+data+' href="javascript:;">修改</a>';
@@ -97,8 +93,8 @@ $(function() {
 	   $.open({
 			url:contextPath + "/excel/dialog?id="+id ,
 			title:"脚本设置",
-			width:$(window).width()*0.6,
-			height:$(window).height()*0.5,
+			width:$(window).width()*0.8,
+			height:$(window).height(),
 			modal:true
 		});
    })
@@ -111,12 +107,27 @@ $(function() {
 	   table.ajax.reload();	
    });
    $("#fn-btn-add").click(function(){
+	   $("#sheetId").val("");
 	   $("#sheetName").val("");
 	   $("#sheet-add").modal();
    });
    $("#fn-sheet-btn").click(function(){
 	   if($("#sheetName").val()!=null && $("#sheetName").val()!=""){
-		   $("#fn-sheet-form").submit();
+		   $.ajax({
+				  type: 'POST',
+				  url: contextPath + '/excel/save',
+				  data: {"id":$("#add-excel-id").val(), "sheetName":$("#sheetName").val(), "report.id":$("#reportId").val()},
+				  success: function(data){
+					  if(data.responseCode == 1){
+						  $("#sheet-add").modal("hide");
+						  $.alert("保存成功!");
+						  table.ajax.reload();	
+					  } else {
+						  $.alert(data.responseMsg);
+					  }
+				  },
+				  dataType: 'json'
+			});
 	   }
    });
 });

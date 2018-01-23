@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.liyun.car.common.entity.Page;
 import com.liyun.car.common.enums.ParamStatusEnum;
+import com.liyun.car.core.utils.ReturnUitl;
+import com.liyun.car.report.dto.MessageDto;
 import com.liyun.car.report.entity.ReportDataSource;
+import com.liyun.car.report.enums.DataSourceTypeEnum;
 import com.liyun.car.report.service.ReportDataSourceService;
+import com.liyun.car.report.utils.DBUtil;
+import com.liyun.car.report.utils.MessageUtil;
 
 @Controller
 @RequestMapping("dataSource")
@@ -53,7 +59,8 @@ private Logger logger = LoggerFactory.getLogger(ReportDataSourceController.class
 	}
 	
 	@RequestMapping("save")
-	public String save(HttpServletRequest request , ReportDataSource dataSource){
+	@ResponseBody
+	public MessageDto save(ReportDataSource dataSource){
 		try{
 			if(dataSource.getId() != null){
 				reportDataSourceService.updateEntity(dataSource,"dataSourceName","type","jdbcUrl","username","password","status","remark");
@@ -63,11 +70,30 @@ private Logger logger = LoggerFactory.getLogger(ReportDataSourceController.class
 			}
 		} catch(Exception e){
 			logger.error("保存失败,",e);
-			request.setAttribute("dataSource", dataSource);
 			
-			return "datasource/add";
+			return MessageUtil.buildDto("99", "保存失败," + e.getMessage());
 		}
-		return "datasource/list";
+		return MessageUtil.buildDto("00", "请求成功!");
+	}
+	
+	@RequestMapping("test")
+	public void test(HttpServletRequest request, HttpServletResponse response, ReportDataSource dataSource){
+		try{
+			String driverName = "";
+			if(dataSource.getType() == DataSourceTypeEnum.MYSQL){
+				driverName = "com.mysql.jdbc.Driver";
+			} else {
+				driverName = "oracle.jdbc.driver.OracleDriver";
+			}
+			
+			new DBUtil(driverName, dataSource.getJdbcUrl(),dataSource.getUsername(),dataSource.getPassword()).getConnection();
+			ReturnUitl.write(response, 1);
+		}catch(Exception e){
+			logger.error("测试不通过,", e);
+			String msg = "连接失败,"+e.getMessage();
+			System.out.println(msg);
+			ReturnUitl.write(response, 0, msg);
+		}
 	}
 	
 	@RequestMapping("setStatus")

@@ -220,7 +220,21 @@ request.setAttribute("basePath", basePath);
 			if($(".error").length!=0){
 				return false;
 			}
-			$("#fn-submit-form").submit();
+			$.ajax({
+				  type: 'POST',
+				  async:false,
+				  url: '${path }/report/save',
+				  data: $("#fn-submit-form").serialize(),
+				  success: function(data){
+						if(data && data.code && data.code == "00"){
+							$.alert("保存成功!");
+							location.href="${path}/report/list";
+						} else {
+							$.alert(data.message);
+						}
+				  },
+				  dataType: 'json'
+			});
 		});
 		init();
 	});

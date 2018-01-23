@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.liyun.car.common.entity.Page;
 import com.liyun.car.common.enums.OperMode;
-import com.liyun.car.hibernate.hibernate.HibernateSupport;
 import com.liyun.car.hibernate.service.impl.HibernateServiceSupport;
 import com.liyun.car.report.entity.ReportExcel;
 import com.liyun.car.report.entity.ReportExcelDetail;

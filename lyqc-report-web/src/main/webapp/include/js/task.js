@@ -25,41 +25,34 @@ $(function() {
 				"aoColumns" : [{
 					"mData" : "id",
 					"orderable" : true, // 禁用排序
-					"sDefaultContent" : "",
-					"sWidth" : "5%",
+					"sDefaultContent" : ""
 					
 				},{
 					"mData" : "reportName",
 					"orderable" : true, // 禁用排序
-					"sDefaultContent" : "",
-					"sWidth" : "10%",
+					"sDefaultContent" : ""
 					
 				}, {
 					"mData" : "isSuccess",
 					"orderable" : false, // 禁用排序
-					"sDefaultContent" : "",
-					"sWidth" : "10%"
+					"sDefaultContent" : ""
 				},{
 					"mData" : "message",
 					"orderable" : false, // 禁用排序
-					"sDefaultContent" : "",
-					"sWidth" : "20%"
+					"sDefaultContent" : ""
 				}, {
 					"mData" : "isMailSuccess",
 					"orderable" : false, // 禁用排序
-					"sDefaultContent" : "",
-					"sWidth" : "10%"
+					"sDefaultContent" : ""
 				},{
 					"mData" : "mailMessage",
 					"orderable" : false, // 禁用排序
-					"sDefaultContent" : "",
-					"sWidth" : "20%"
+					"sDefaultContent" : ""
 				},
 				{
 					"mData" : "execTime",
 					"orderable" : false, // 禁用排序
 					"sDefaultContent" : "",
-					"sWidth" : "10%",
 					"render" : function(data, type, full, meta) {
 						return  moment(data).format("YYYY-MM-DD HH:mm:ss");
 					}
@@ -68,7 +61,6 @@ $(function() {
 					"mData" : "id",
 					"orderable" : false, // 禁用排序
 					"sDefaultContent" : '',
-					"sWidth" : "15%",
 				    "render":function(data, type, full, meta){
 				    	var html = '<a class="link html" data-id='+data+' href="javascript:;">报表内容</a>';
 				    	if(full.filePath!=null &&full.filePath!=""){
@@ -104,8 +96,8 @@ $(function() {
 	   $.open({
 			url:contextPath + "/view/task/html.jsp?id="+id ,
 			title:"报表内容",
-			width:$(window).width()*0.6,
-			height:$(window).height()*0.5,
+			width:$(window).width()*0.8,
+			height:$(window).height(),
 			modal:true,
 			buttons:[
 	     				{
@@ -123,8 +115,8 @@ $(function() {
 	   $.open({
 		   url:contextPath + "/view/task/email.jsp?id="+id ,
 		   title:"邮件内容",
-		   width:$(window).width()*0.6,
-		   height:$(window).height()*0.5,
+		   width:$(window).width()*0.8,
+		   height:$(window).height(),
 		   modal:true,
 		   buttons:[
 		            {
