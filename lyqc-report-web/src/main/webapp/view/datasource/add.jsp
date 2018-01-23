@@ -162,7 +162,7 @@ request.setAttribute("basePath", basePath);
 				  success: function(data){
 						if(data && data.code && data.code == "00"){
 							$.alert("保存成功!");
-							location.href="${path }/dataSource/list";
+							location.href= contextPath + "/view/dataSource/list.jsp";
 						} else {
 							$.alert(data.message);
 						}

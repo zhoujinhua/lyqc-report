@@ -101,12 +101,12 @@ public class ReportDetailController {
 			} else {
 				reportDetailService.saveReportDetail(detail);
 			}
-			return MessageUtil.buildDto("00", "保存成功!");
 		} catch(Exception e){
 			logger.error("脚本设置失败.",e);
 			
 			return MessageUtil.buildDto("99", "保存失败," + e.getMessage());
 		}
+		return MessageUtil.buildDto("00", "保存成功!");
 	}
 	
 	@RequestMapping("add")

@@ -45,7 +45,7 @@ request.setAttribute("basePath", basePath);
 	                        <div class="form-group">
 	                            <label class="col-sm-1 control-label" >邮件地址 </label>
 	                            <div class="col-sm-8">
-	                                <input type="text"  class="form-control required" name="email" maxlength="25" placeholder="30个字符以内" value="${sender.email }"/>
+	                                <input type="text"  class="form-control required" name="email" maxlength="50" placeholder="50个字符以内" value="${sender.email }"/>
 	                            </div>
 	                        </div>
 	                        <div class="form-group">
