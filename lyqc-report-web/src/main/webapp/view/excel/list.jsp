@@ -144,5 +144,5 @@ request.setAttribute("msg", msg);
         }); */
     </script>
     <%-- <script type="text/javascript" src="${path }/include/js/chosen-pri.js"></script> --%>
-    <script type="text/javascript" src="${path }/include/js/excel.js?a=3"></script>
+    <script type="text/javascript" src="${path }/include/js/excel.js?version=5"></script>
 </html>

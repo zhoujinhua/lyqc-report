@@ -116,14 +116,14 @@ $(function() {
 		   $.ajax({
 				  type: 'POST',
 				  url: contextPath + '/excel/save',
-				  data: {"id":$("#add-excel-id").val(), "sheetName":$("#sheetName").val(), "report.id":$("#reportId").val()},
+				  data: {"id":$("#add-excel-id").val(), "sheetName":$("#sheetName").val(), "reportInfo.id":$("#reportId").val()},
 				  success: function(data){
-					  if(data.responseCode == 1){
+					  if(data.code == '00'){
 						  $("#sheet-add").modal("hide");
 						  $.alert("保存成功!");
 						  table.ajax.reload();	
 					  } else {
-						  $.alert(data.responseMsg);
+						  $.alert(data.message);
 					  }
 				  },
 				  dataType: 'json'
