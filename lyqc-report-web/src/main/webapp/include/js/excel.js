@@ -84,7 +84,19 @@ $(function() {
     	var id = $(this).attr("data-id");
   	    $.confirm("确定要删除Sheet吗？",function(ok){
   		   if(ok){
-  			   location.href = contextPath + "/excel/delete?id=" + id;
+  			 $.ajax({
+				  type: 'POST',
+				  url: contextPath + '/excel/delete?id='+id,
+				  success: function(data){
+					  if(data.code == '00'){
+						  $.alert("保存成功!");
+						  table.ajax.reload();	
+					  } else {
+						  $.alert(data.message);
+					  }
+				  },
+				  dataType: 'json'
+			});
   		   }
   	    });
     })
@@ -119,6 +131,7 @@ $(function() {
 				  data: {"id":$("#add-excel-id").val(), "sheetName":$("#sheetName").val(), "reportInfo.id":$("#reportId").val()},
 				  success: function(data){
 					  if(data.code == '00'){
+						  $("#add-excel-id").val("");
 						  $("#sheet-add").modal("hide");
 						  $.alert("保存成功!");
 						  table.ajax.reload();	

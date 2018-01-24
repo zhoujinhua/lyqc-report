@@ -102,19 +102,15 @@ public class ReportExcelController {
 	}
 	
 	@RequestMapping("delete")
-	public String delete(HttpServletRequest request,ReportExcel excel){
-		String id = "";
+	@ResponseBody
+	public MessageDto delete(ReportExcel excel){
 		try{
 			excel = reportExcelService.getEntityById(excel.getId());
-			id = excel.getReportInfo().getId() + "";
 			reportExcelService.deleteExcel(excel);
-			request.setAttribute("msg", "删除成功!");
 		} catch(Exception e){
 			logger.error("删除失败,",e);
-			request.setAttribute("msg", "删除失败,"+e.getMessage());
-			request.setAttribute("excel", excel);
+			return MessageUtil.buildDto("00", "删除失败,"+e.getMessage());
 		}
-		request.setAttribute("id", id);
-		return "excel/list";
+		return MessageUtil.buildDto("00", "请求成功!");
 	}
 }
