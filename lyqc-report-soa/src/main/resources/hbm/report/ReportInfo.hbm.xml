@@ -47,13 +47,13 @@
             <key>
                 <column name="report_id" not-null="true"/>
             </key>
-            <one-to-many class="com.liyun.car.report.entity.ReportExcel" />
+            <one-to-many class="com.liyun.car.report.entity.ReportExcel" not-found="ignore"/>
         </bag>
         <bag name="reportViewers" lazy="false" cascade="all-delete-orphan" inverse="true">
             <key>
                 <column name="report_id" not-null="true"/>
             </key>
-            <one-to-many class="com.liyun.car.report.entity.ReportViewer" />
+            <one-to-many class="com.liyun.car.report.entity.ReportViewer" not-found="ignore"/>
         </bag>
         
         <many-to-one name="reportSender" class="com.liyun.car.report.entity.ReportSender">
