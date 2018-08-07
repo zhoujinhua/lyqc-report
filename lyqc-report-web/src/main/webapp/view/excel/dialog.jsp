@@ -34,6 +34,7 @@ request.setAttribute("basePath", basePath);
                 <label class="control-label col-sm-3">选择脚本</label>
                 <div class="col-sm-8">
                 	<input type="hidden" name="id" id="excel-id" value="${id }">
+                	<input type="hidden" name="id" id="report-id" value="${reportId }">
            	 		<select class="form-control chosen" multiple id="choose-content" name="contentId" data-placeholder="请选择脚本.">
            	 		</select>
                 </div>
@@ -134,14 +135,13 @@ request.setAttribute("basePath", basePath);
    		 });
    		 $("#fn-btn-confirm").click(function(){
    			if($("#choose-content").val()!=null && $("#choose-content").val()!=""){
-  				 var serial = $("#fn-content-set-form").formSerialize();
+   			    var serial = $("#fn-content-set-form").formSerialize();
   				$.ajax({
 					  type: 'POST',
 					  url: contextPath + '/excel/setContent?'+serial,
 					  data: {"id":id},
 					  success: function(data){
 						  if(data == "success"){
-							  parent.location.href="${path}/view/excel/list.jsp?msg=操作成功！";
 							  $("#fn-btn-cancle").click();
 						  } else {
 							  $.alert(data);

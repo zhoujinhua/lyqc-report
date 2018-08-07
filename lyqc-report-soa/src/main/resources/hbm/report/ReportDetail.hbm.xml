@@ -16,6 +16,9 @@
         <property name="isSub" type="BooleanEnum">
             <column name="is_Sub" />
         </property>
+        <property name="isViewer" type="BooleanEnum">
+            <column name="is_viewer" />
+        </property>
         <property name="isFieldTitle" type="BooleanEnum">
             <column name="is_Field_Title" />
         </property>

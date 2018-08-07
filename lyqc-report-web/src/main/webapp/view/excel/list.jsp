@@ -5,9 +5,9 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 request.setAttribute("path", path);
 request.setAttribute("basePath", basePath);
-String id = request.getParameter("id");
-if(id != null && !"".equals(id)){
-	request.setAttribute("id", id);
+String reportId = request.getParameter("reportId");
+if(reportId != null && !"".equals(reportId)){
+	request.setAttribute("reportId", reportId);
 }
 String msg = request.getParameter("msg");
 request.setAttribute("msg", msg);
@@ -136,13 +136,7 @@ request.setAttribute("msg", msg);
 </body>
     <jsp:include page="/view/common/head.jsp"></jsp:include>
     <script type="text/javascript">
-    	var id = "${id}";
-    	/* $("#choose-content").chosen({
-            no_results_text: "未发现匹配的字符串!",
-        	allow_single_deselect: true,
-        	width:"100%"
-        }); */
+    	var reportId = "${reportId}";
     </script>
-    <%-- <script type="text/javascript" src="${path }/include/js/chosen-pri.js"></script> --%>
-    <script type="text/javascript" src="${path }/include/js/excel.js?version=6"></script>
+    <script type="text/javascript" src="${path }/include/js/excel.js?version=9"></script>
 </html>

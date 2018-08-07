@@ -110,7 +110,7 @@ $(function() {
    })
    $(document).delegate('.excel','click',function(){
 	   var id = $(this).attr("data-id");
-	   location.href = contextPath + "/view/excel/list.jsp?id=" + id;
+	   location.href = contextPath + "/view/excel/list.jsp?reportId=" + id;
    })
    $(document).delegate('#fn-btn-search','click',function() {
 	   table.ajax.reload();	

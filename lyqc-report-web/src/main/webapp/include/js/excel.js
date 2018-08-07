@@ -17,7 +17,7 @@ $(function() {
 		"ordering": false,//全局禁用排序
 		"ajax": {
                 "type": "POST",
-                "url": contextPath + "/excel/list?reportInfo.id=" + id,
+                "url": contextPath + "/excel/list?reportInfo.id=" + reportId,
                 "data":function(d){
                 	d.reportName=$("input[name='reportName']").val();
                 }
@@ -48,7 +48,7 @@ $(function() {
 					"orderable" : false, // 禁用排序
 					"sDefaultContent" : '',
 				    "render":function(data, type, full, meta){
-				    	var html = '<a class="link set-content" data-id='+data+' href="javascript:;">设置脚本</a>';
+				    	var html = '<a class="link set-content" data-id='+data+' data-report-id='+reportId+' href="javascript:;">设置脚本</a>';
 				    	html += ' <a class="link edit" data-id='+data+' href="javascript:;">修改</a>';
 				    	html += ' <a class="link remove" data-id='+data+' href="javascript:;">删除</a>';
 				    	return	data = html;
@@ -103,7 +103,7 @@ $(function() {
    $(document).delegate('.set-content','click',function(){
 	   var id = $(this).attr("data-id");
 	   $.open({
-			url:contextPath + "/excel/dialog?id="+id ,
+			url:contextPath + "/excel/dialog?id="+id + "&reportId=" + reportId,
 			title:"脚本设置",
 			width:$(window).width()*0.8,
 			height:$(window).height(),

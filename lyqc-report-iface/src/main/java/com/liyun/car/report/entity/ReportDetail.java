@@ -24,6 +24,7 @@ public class ReportDetail implements Serializable{
 	private BooleanEnum isExpect; //期望/非期望
 	private String validValue;  //值
 	private BooleanEnum isSub; //是否细分内容
+	private BooleanEnum isViewer; //细分字段是不是拆分报表收件人
 	private ParamStatusEnum status;
 	
 	private BooleanEnum isFieldTitle; //是否使用字段名称作为标题名称
@@ -70,7 +71,15 @@ public class ReportDetail implements Serializable{
 		this.isSub = isSub;
 	}
 
-	public ReportField getReportField() {
+	public BooleanEnum getIsViewer() {
+        return isViewer;
+    }
+
+    public void setIsViewer(BooleanEnum isViewer) {
+        this.isViewer = isViewer;
+    }
+
+    public ReportField getReportField() {
 		if(this.reportFields!=null && !this.reportFields.isEmpty()){
 			for(ReportField field : this.reportFields){
 				if(field.getIsSubParam() == BooleanEnum.YES){

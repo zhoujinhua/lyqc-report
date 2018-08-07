@@ -117,6 +117,16 @@ request.setAttribute("basePath", basePath);
 	                            	</select>
 	                            </div>
 	                        </div>
+                            <div class="form-group hide">
+                                <label class="col-sm-1 control-label" >细分字段是拆分报表收件人</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control chosen required" id="report-field-email" name="isViewer" code="${detail.isViewer.value }">
+                                        <c:forEach items="<%=BooleanEnum.values() %>" var="item">
+                                            <option value="${item.value }">${item.name }</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
 	                        <div class="form-group content-exec hide">
 	                            <label class="col-sm-1 control-label" >字段设置 </label>
 	                            <div class="col-sm-8">
@@ -194,8 +204,10 @@ request.setAttribute("basePath", basePath);
 			var value = $("#isSub").val();
 			if(value == "1"){
 				$("#report-field-name").parent().parent().removeClass("hide").show();
+				$("#report-field-email").parent().parent().removeClass("hide").show();
 			} else {
 				$("#report-field-name").parent().parent().addClass("hide").hide();
+				$("#report-field-email").parent().parent().removeClass("hide").hide();
 			}
 		});
 		$("#isValidate").on('change',function(evt,params){
