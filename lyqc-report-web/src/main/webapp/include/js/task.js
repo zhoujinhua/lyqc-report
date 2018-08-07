@@ -62,7 +62,10 @@ $(function() {
 					"orderable" : false, // 禁用排序
 					"sDefaultContent" : '',
 				    "render":function(data, type, full, meta){
-				    	var html = '<a class="link html" data-id='+data+' href="javascript:;">报表内容</a>';
+				    	var html = '';
+				    	if(full.htmlContent!=null &&full.htmlContent!=""){
+				    		var html = '<a class="link html" data-id='+data+' href="javascript:;">报表内容</a>';
+				    	}
 				    	if(full.filePath!=null &&full.filePath!=""){
 				    		html += '    <a class="link file" data-id='+data+' href="javascript:;">Excel下载</a>';
 				    	}
