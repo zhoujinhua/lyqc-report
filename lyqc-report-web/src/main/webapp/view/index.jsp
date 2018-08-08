@@ -46,21 +46,8 @@ request.setAttribute("basePath", basePath);
         if (!url || url == '') {
             return;
         }
-        var url = conver_url(url);
         showDiv();
         document.getElementById("sub-content").src = url;
-    }
-    var conver_url = function(url) {
-        var contextPath = "/lyqc-report";
-        if (url.charAt(0) == '/') {
-            if (url.substr(0, contextPath.length) == contextPath) {
-                return url;
-            } else {
-                return contextPath + url;
-            }
-        } else {
-            return url;
-        }
     }
     function showDiv() {
     	document.getElementById('popWindow').style.display = 'inline';
@@ -114,6 +101,12 @@ request.setAttribute("basePath", basePath);
                         	<a href="#"><i class=""></i><span><i class="glyphicon glyphicon-book"></i>监控管理</span></a>
                         	<ul class="nav nav-pills nav-stacked">
                         		<li><a href="javascript:gourl('task/list.jsp');"><i class="glyphicon glyphicon-list"></i>执行日志</a></li>
+                        	</ul>
+                        </li>
+                        <li class="accordion">
+                        	<a href="#"><i class=""></i><span><i class="glyphicon glyphicon-book"></i>入库管理</span></a>
+                        	<ul class="nav nav-pills nav-stacked">
+                        		<li><a href="javascript:gourl('import/import.jsp');"><i class="glyphicon glyphicon-list"></i>导数入库</a></li>
                         	</ul>
                         </li>
                     </ul>

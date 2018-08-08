@@ -2,6 +2,7 @@ package com.liyun.car.report.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,9 +35,9 @@ private Logger logger = LoggerFactory.getLogger(ReportDataSourceController.class
 	@Autowired
 	private ReportDataSourceService reportDataSourceService;
 
-	@RequestMapping("list")
+	@RequestMapping("page")
 	@ResponseBody
-	public Map<String,Object> list(HttpServletRequest request,ReportDataSource dataSource){
+	public Map<String,Object> page(HttpServletRequest request,ReportDataSource dataSource){
 		int length = ServletRequestUtils.getIntParameter(request, "length", 10);
 		int start = ServletRequestUtils.getIntParameter(request, "start", 0);
 		int pn = start == 0?1:(start/length+1);
@@ -48,6 +49,16 @@ private Logger logger = LoggerFactory.getLogger(ReportDataSourceController.class
 	    map.put("recordsFiltered", page.getCount());
 	    
 	    return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping("list")
+	public MessageDto list() {
+	    ReportDataSource dataSource = new ReportDataSource();
+        dataSource.setStatus(ParamStatusEnum.ON);;
+        List<ReportDataSource> dataSources = reportDataSourceService.getEntitysByParams(dataSource , "status");
+        
+        return MessageUtil.buildDto("00", "请求成功!", dataSources);
 	}
 	
 	@RequestMapping("add")

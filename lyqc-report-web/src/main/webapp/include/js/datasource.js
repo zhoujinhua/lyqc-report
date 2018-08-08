@@ -17,7 +17,7 @@ $(function() {
 		"ordering": false,//全局禁用排序
 		"ajax": {
                 "type": "POST",
-                "url": contextPath + "/dataSource/list",
+                "url": contextPath + "/dataSource/page",
                 "data":function(d){
                 	d.dataSourceName=$("input[name='dataSourceName']").val();
                 }

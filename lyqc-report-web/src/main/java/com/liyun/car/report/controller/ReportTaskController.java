@@ -29,9 +29,10 @@ import net.sf.json.JSONObject;
 @RequestMapping("task")
 public class ReportTaskController {
 
-	private Logger logger = LoggerFactory.getLogger(ReportTaskController.class);
 	@Autowired
 	private ReportTaskService reportTaskService;
+
+	private Logger logger = LoggerFactory.getLogger(ReportTaskController.class);
 	
 	@RequestMapping("list")
 	@ResponseBody

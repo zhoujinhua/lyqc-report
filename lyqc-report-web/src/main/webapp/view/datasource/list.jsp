@@ -94,5 +94,5 @@ request.setAttribute("id", id);
 	</div>
 </body>
     <jsp:include page="/view/common/head.jsp"></jsp:include>
-    <script type="text/javascript" src="${path }/include/js/datasource.js"></script>
+    <script type="text/javascript" src="${path }/include/js/datasource.js?version=1"></script>
 </html>
