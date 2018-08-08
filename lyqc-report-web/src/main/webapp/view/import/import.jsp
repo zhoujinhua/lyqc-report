@@ -150,7 +150,7 @@ request.setAttribute("basePath", basePath);
                 		'tableName': $("#tableName").val()
                 	}
                 	uploader.setOption({
-                        'url': '${path}/upload/upload',
+                        'url': '${path}/intoDb/upload',
                         'multipart_params': upload_params
                     });
 
@@ -243,7 +243,7 @@ request.setAttribute("basePath", basePath);
     	$.ajax({
             type: 'POST',
             data: {"dbId": $("#dbId").val(), "tableName": $("#tableName").val(), "filePath": $("#hidden-import-data").val()},
-            url: contextPath + '/upload/intoDb',
+            url: contextPath + '/intoDb/intoDb',
             success: function(data){
                 if(data.code == '00'){
                     $.alert("入库成功!");

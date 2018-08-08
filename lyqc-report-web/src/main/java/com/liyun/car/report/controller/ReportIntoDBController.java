@@ -18,7 +18,7 @@ import com.liyun.car.report.service.ReportIntoDbService;
 import com.liyun.car.report.utils.MessageUtil;
 
 @Controller
-@RequestMapping("upload")
+@RequestMapping("intoDb")
 public class ReportIntoDBController {
     
     @Autowired
