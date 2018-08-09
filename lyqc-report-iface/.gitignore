@@ -4,3 +4,6 @@
 /.project
 /$/
 /src/test/
+/.idea/
+*.iml
+
