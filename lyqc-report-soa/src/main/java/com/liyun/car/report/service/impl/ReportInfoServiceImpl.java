@@ -315,6 +315,9 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
                 task.setExecTime(new Date());
                 task.setReportInfo(info);
                 task.setReportSender(info.getReportSender());
+                if(task.getHtmlContent() == null) {
+                    task.setHtmlContent("");
+                }
                 
                 MailSendUtil mailSend = buildMailSend(info, task);
                 try {
@@ -331,6 +334,7 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
                         mailSend.send();
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                     task.setIsMailSuccess(BooleanEnum.NO);
                     task.setMailMessage(e.getMessage());
                 } finally {
