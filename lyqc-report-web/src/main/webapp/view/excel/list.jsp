@@ -138,5 +138,5 @@ request.setAttribute("msg", msg);
     <script type="text/javascript">
     	var reportId = "${reportId}";
     </script>
-    <script type="text/javascript" src="${path }/include/js/excel.js?version=9"></script>
+    <script type="text/javascript" src="${path }/include/js/excel.js?version=10"></script>
 </html>

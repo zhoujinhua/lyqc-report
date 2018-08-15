@@ -93,7 +93,7 @@ request.setAttribute("msg", msg);
 	</div>
 </body>
     <jsp:include page="/view/common/head.jsp"></jsp:include>
-    <script type="text/javascript" src="${path }/include/js/info.js?version=1"></script>
+    <script type="text/javascript" src="${path }/include/js/info.js?version=2"></script>
     <script type="text/javascript">
 		$(function(){
 			$("#fn-btn-add").click(function() {

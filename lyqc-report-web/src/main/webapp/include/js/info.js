@@ -90,17 +90,13 @@ $(function() {
 	   var isSendMail = $(this).attr("isSendMail");
 	   $.confirm("确定要执行报表吗？",function(ok){
 		   if(ok){
-			   if(isSendMail == "YES"){
-				   $.confirm("是否发送邮件？",function(ok){
-					   if(ok){
-						   location.href = contextPath + "/report/exec?id=" + id+"&isSendMail=1";
-					   } else {
-						   location.href = contextPath + "/report/exec?id=" + id+"&isSendMail=0";
-					   }
-				   });
-			   } else {
-				   location.href = contextPath + "/report/exec?id=" + id+"&isSendMail=0";
-			   }
+			   $.confirm("是否发送邮件？",function(ok){
+				   if(ok){
+					   location.href = contextPath + "/report/exec?id=" + id+"&isSendMail=1";
+				   } else {
+					   location.href = contextPath + "/report/exec?id=" + id+"&isSendMail=0";
+				   }
+			   });
 		   }
 	   });
    })

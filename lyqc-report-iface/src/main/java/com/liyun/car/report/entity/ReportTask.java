@@ -127,5 +127,13 @@ public class ReportTask implements Serializable{
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
+    @Override
+    public String toString() {
+        return "ReportTask [id=" + id + ", reportInfo=" + reportInfo + ", execTime=" + execTime + ", htmlContent="
+                + htmlContent + ", filePath=" + filePath + ", fileSize=" + fileSize + ", reportSender=" + reportSender
+                + ", mailAddress=" + mailAddress + ", mailCcAddress=" + mailCcAddress + ", isMailSuccess="
+                + isMailSuccess + ", mailMessage=" + mailMessage + ", isSuccess=" + isSuccess + ", message=" + message
+                + ", reportName=" + reportName + ", fileName=" + fileName + "]";
+    }
 	
 }

@@ -65,7 +65,7 @@
 		
 	</mvc:interceptors>
 
-	<mvc:view-controller path="/" view-name="forward:/login.jsp" />
+	<mvc:view-controller path="/" view-name="forward:/index.jsp" />
 	<!--当在web.xml 中 DispatcherServlet使用 <url-pattern>/</url-pattern> 映射时，能映射静态资源 -->
 
 	<bean

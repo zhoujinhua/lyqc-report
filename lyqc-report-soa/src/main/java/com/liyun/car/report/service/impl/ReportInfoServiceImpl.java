@@ -143,15 +143,17 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
             mainTask.setFilePath(fileName);
             mainTask.setFileName(file.getName());
         }
-
-        buildMainTask(info, mainTask);
         
         List<ReportTask> taskList = new ArrayList<>();
         for(Iterator<String> iter = taskMap.keySet().iterator(); iter.hasNext();) {
             String key = iter.next();
             taskList.add(taskMap.get(key));
         }
-        taskList.add(mainTask);
+        
+        if(info.getReportSender() != null && info.getReportViewers() != null && !info.getReportViewers().isEmpty()) {
+            buildMainTask(info, mainTask);
+            taskList.add(mainTask);
+        }
         if (sendMail) {
             sendMail(info, taskList);
         }
@@ -213,7 +215,11 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
                         getExcelBody(swb.getSheet(excel.getSheetName()), map.get(key), tempFields, key.toString());
 
                         if (detail.getIsViewer() == BooleanEnum.YES) {
+                            if (!taskMap.containsKey(key)) {
+                                taskMap.put(String.valueOf(key), new ReportTask());
+                            }
                             ReportTask reportTask = taskMap.get(key);
+                            reportTask.setMailAddress(String.valueOf(key));
 
                             String innerFileName = info.getReportName() + "_" + key + "_" + DateUtil.getDateFormatAll_(new Date()) + ".xlsx";
                             String innerFilePath = PropertyUtil.getPropertyValue("EXCEL_FILE_PATH") + innerFileName;
@@ -272,8 +278,10 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
                         if (!map.containsKey(key)) {
                             map.put(key, new ArrayList<Object[]>());
                         }
-                        if (!taskMap.containsKey(key)) {
-                            taskMap.put(String.valueOf(key), new ReportTask());
+                        if (detail.getIsViewer() == BooleanEnum.YES) {
+                            if (!taskMap.containsKey(key)) {
+                                taskMap.put(String.valueOf(key), new ReportTask());
+                            }
                         }
 
                         Object[] result = ArrayUtils.delete(obj, (field.getSeq() - 1));
@@ -319,26 +327,35 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
                     task.setHtmlContent("");
                 }
                 
-                MailSendUtil mailSend = buildMailSend(info, task);
-                try {
-                    mailSend.send();
-                } catch (SendFailedException se) {
-                    se.printStackTrace();
-                    Address[] unsend = se.getValidUnsentAddresses();
-                    if (null != unsend) {
-                        List<String> validAddrList = new ArrayList<>();
-                        for (int i = 0; i < unsend.length; i++) {
-                            validAddrList.add(unsend[i].toString());
-                        }
-                        mailSend.setMailAddress(validAddrList);
+                if(task.getMailAddress() != null && task.getMailAddress() != "") {
+                    MailSendUtil mailSend = buildMailSend(info, task);
+                    try {
                         mailSend.send();
+                    } catch (SendFailedException se) {
+                        se.printStackTrace();
+                        Address[] unsend = se.getValidUnsentAddresses();
+                        if (null != unsend) {
+                            List<String> validAddrList = new ArrayList<>();
+                            for (int i = 0; i < unsend.length; i++) {
+                                validAddrList.add(unsend[i].toString());
+                            }
+                            if(validAddrList.size() != 0) {
+                                mailSend.setMailAddress(validAddrList);
+                                mailSend.send();
+                            } else {
+                                task.setIsMailSuccess(BooleanEnum.NO);
+                                task.setMailMessage("没有合法的收件人");
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        task.setIsMailSuccess(BooleanEnum.NO);
+                        task.setMailMessage(e.getMessage());
+                    } finally {
+                        getSession().persist(task);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    task.setIsMailSuccess(BooleanEnum.NO);
-                    task.setMailMessage(e.getMessage());
-                } finally {
-                    getSession().persist(task);
+                } else {
+                    System.out.println(task.toString());
                 }
             }
         }

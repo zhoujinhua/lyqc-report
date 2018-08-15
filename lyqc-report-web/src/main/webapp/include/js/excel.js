@@ -128,7 +128,7 @@ $(function() {
 		   $.ajax({
 				  type: 'POST',
 				  url: contextPath + '/excel/save',
-				  data: {"id":$("#add-excel-id").val(), "sheetName":$("#sheetName").val(), "reportInfo.id":$("#reportId").val()},
+				  data: {"id":$("#add-excel-id").val(), "sheetName":$("#sheetName").val(), "reportInfo.id":reportId},
 				  success: function(data){
 					  if(data.code == '00'){
 						  $("#add-excel-id").val("");
