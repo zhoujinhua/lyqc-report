@@ -52,6 +52,7 @@ import com.liyun.car.report.service.ReportDetailService;
 import com.liyun.car.report.service.ReportInfoService;
 import com.liyun.car.report.utils.DBUtil;
 import com.liyun.car.report.utils.MailSendUtil;
+import com.liyun.car.report.utils.ZipUtil;
 
 @Service
 public class ReportInfoServiceImpl extends HibernateSupport implements ReportInfoService {
@@ -140,7 +141,7 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
             String fileName = PropertyUtil.getPropertyValue("EXCEL_FILE_PATH") + info.getReportName() + "_"
                     + info.getId() + "_" + DateUtil.getDateFormatAll_(new Date()) + ".xlsx";
             file = getReportExcelResult(info, fileName, taskMap);
-            mainTask.setFilePath(fileName);
+            mainTask.setFilePath(file.getAbsolutePath());
             mainTask.setFileName(file.getName());
         }
         
@@ -243,8 +244,13 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
         }
         swb.write(fos);
         fos.close();
-
-        return new File(fileName);
+        
+        File[] files = new File[] {new File(fileName)};
+        String zipFileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".zip";
+        File zipFile = new File(zipFileName);
+        
+        ZipUtil.zipFiles(files, zipFile);
+        return zipFile;
     }
 
     public String getReportHtmlResult(ReportInfo info, Map<String, ReportTask> taskMap) throws Exception {
@@ -365,7 +371,8 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
         List<Attachment> attachments = new ArrayList<>();
         File file = new File(task.getFilePath());
         if (file != null && file.exists()) {
-            attachments.add(new Attachment(file, info.getExcelName() + ".xlsx"));
+            String lastfix = task.getFileName().substring(task.getFileName().lastIndexOf("."), task.getFileName().length());
+            attachments.add(new Attachment(file, info.getExcelName() + lastfix));
         }
         
         List<String> mailAddressList = new ArrayList<>();
