@@ -116,7 +116,7 @@ request.setAttribute("basePath", basePath);
 	   });
    		 
    		 $("#choose-content").on("change",function(evt,params){
-   			 if(params.selected != "undefined"){
+   			 if(params.selected != undefined){
    				var id = params.selected;
    				var name = $("#choose-content [value='"+id+"']").text();
    				$("#tbody").append("<tr id='report-content-"+id+"'><td class='seq'></td><td><input type='hidden' class='seq-input'><input type='hidden' class='content-id-input' value='"+id+"'>"+name+"</td></tr>");

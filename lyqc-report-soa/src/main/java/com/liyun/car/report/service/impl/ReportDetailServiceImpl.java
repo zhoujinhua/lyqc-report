@@ -22,7 +22,7 @@ public class ReportDetailServiceImpl extends HibernateSupport implements ReportD
     public Page<ReportDetail> pageList(ReportDetail detail, int pn) {
         if (detail != null) {
             return getSession().getCriteria(ReportDetail.class)
-                    .addRestriction(detail, OperMode.EQ, "status", "titleName").addOrder(Order.desc("createTime"))
+                    .addRestriction(detail, OperMode.LIKE, "status", "titleName").addOrder(Order.desc("createTime"))
                     .getResultList(pn);
         } else {
             return getSession().getCriteria(ReportDetail.class).getResultList(pn);

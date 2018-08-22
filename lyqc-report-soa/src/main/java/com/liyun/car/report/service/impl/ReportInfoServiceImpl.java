@@ -65,7 +65,7 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
     @Override
     public Page<ReportInfo> pageList(ReportInfo info, int pn) {
         if (info != null) {
-            return getSession().getCriteria(ReportInfo.class).addRestriction(info, OperMode.EQ, "reportName")
+            return getSession().getCriteria(ReportInfo.class).addRestriction(info, OperMode.LIKE, "reportName")
                     .addOrder(Order.desc("createTime")).getResultList(pn);
         } else {
             return getSession().getCriteria(ReportInfo.class).getResultList(pn);
@@ -245,12 +245,7 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
         swb.write(fos);
         fos.close();
         
-        File[] files = new File[] {new File(fileName)};
-        String zipFileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".zip";
-        File zipFile = new File(zipFileName);
-        
-        ZipUtil.zipFiles(files, zipFile);
-        return zipFile;
+        return new File(fileName);
     }
 
     public String getReportHtmlResult(ReportInfo info, Map<String, ReportTask> taskMap) throws Exception {
