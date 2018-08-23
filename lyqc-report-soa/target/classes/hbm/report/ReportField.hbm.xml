@@ -25,7 +25,7 @@
         <property name="seq" type="java.lang.Integer">
             <column name="seq"/>
         </property>
-        <many-to-one name="reportDetail" class="com.liyun.car.report.entity.ReportDetail" lazy="false">
+        <many-to-one name="reportDetail" class="com.liyun.car.report.entity.ReportDetail" lazy="false" not-found="ignore">
         	<column name="detail_id"></column>
         </many-to-one>
     </class>

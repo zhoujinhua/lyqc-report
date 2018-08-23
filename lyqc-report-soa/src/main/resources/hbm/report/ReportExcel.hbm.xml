@@ -23,7 +23,7 @@
             <key>
                 <column name="excel_id"/>
             </key>
-            <one-to-many class="com.liyun.car.report.entity.ReportExcelDetail" />
+            <one-to-many class="com.liyun.car.report.entity.ReportExcelDetail" not-found="ignore"/>
         </bag>
     </class>
 </hibernate-mapping>

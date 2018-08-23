@@ -52,7 +52,6 @@ import com.liyun.car.report.service.ReportDetailService;
 import com.liyun.car.report.service.ReportInfoService;
 import com.liyun.car.report.utils.DBUtil;
 import com.liyun.car.report.utils.MailSendUtil;
-import com.liyun.car.report.utils.ZipUtil;
 
 @Service
 public class ReportInfoServiceImpl extends HibernateSupport implements ReportInfoService {
