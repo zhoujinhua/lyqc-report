@@ -59,7 +59,7 @@
         <many-to-one name="reportSender" class="com.liyun.car.report.entity.ReportSender" not-found="ignore">
         	<column name="sender_id"></column>
         </many-to-one>
-        <many-to-one name="reportDetail" class="com.liyun.car.report.entity.ReportDetail" fetch="select" not-found="ignore">
+        <many-to-one name="reportDetail" class="com.liyun.car.report.entity.ReportDetail" cascade="save-update,persist" fetch="select" not-found="ignore">
         	<column name="detail_id"></column>
         </many-to-one>
     </class>
