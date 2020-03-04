@@ -24,30 +24,30 @@
 	    <groupId>org.apache.poi</groupId>
 	    <artifactId>poi-ooxml</artifactId>
 	</dependency>
-	<!-- <dependency>
+	 <dependency>
 		<groupId>javax.mail</groupId>
 		<artifactId>mail</artifactId>
-	</dependency> -->
+	</dependency>
     <dependency>
 		<groupId>com.liyun.car</groupId>
 		<artifactId>liyun-core</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
-	<dependency>
+<!-- 	<dependency>
 		<groupId>com.liyun.car</groupId>
 		<artifactId>liyun-orm</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-	</dependency>
+	</dependency> -->
 	<dependency>
 		<groupId>${project.groupId}</groupId>
 		<artifactId>lyqc-report-iface</artifactId>
 		<version>1.0.0</version>
 	</dependency>
-	<dependency>
+	<!-- <dependency>
 		<groupId>com.liyun.car</groupId>
 		<artifactId>liyun-mail</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-	</dependency>
+	</dependency> -->
 	<dependency>    
 	    <groupId>net.sf.json-lib</groupId>    
 	    <artifactId>json-lib</artifactId>    

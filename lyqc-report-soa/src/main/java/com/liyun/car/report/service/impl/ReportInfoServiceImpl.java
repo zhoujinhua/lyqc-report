@@ -310,63 +310,64 @@ public class ReportInfoServiceImpl extends HibernateSupport implements ReportInf
     }
 
     private void sendMail(ReportInfo info, Collection<ReportTask> taskList) throws Exception {
-        if (info.getIsSendMail() == BooleanEnum.YES) {
-            if (info.getIsValidate() == BooleanEnum.YES && !validateReportMailSend(info.getReportDetail())) {
-                throw new RuntimeException("未通过报表发送校验规则,发送被拒绝.");
-            }
+        if (info.getIsValidate() == BooleanEnum.YES && !validateReportMailSend(info.getReportDetail())) {
+            throw new RuntimeException("未通过报表发送校验规则,发送被拒绝.");
+        }
 
-            for(ReportTask task : taskList) {
-                task.setIsMailSuccess(BooleanEnum.YES);
-                task.setIsSuccess(BooleanEnum.YES);
-                task.setMailMessage("发送成功!");
-                task.setMessage("执行成功!");
-                task.setExecTime(new Date());
-                task.setReportInfo(info);
-                task.setReportSender(info.getReportSender());
-                if(task.getHtmlContent() == null) {
-                    task.setHtmlContent("");
-                }
-                
-                if(task.getMailAddress() != null && task.getMailAddress() != "") {
-                    MailSendUtil mailSend = buildMailSend(info, task);
-                    try {
-                        mailSend.send();
-                    } catch (SendFailedException se) {
-                        se.printStackTrace();
-                        Address[] unsend = se.getValidUnsentAddresses();
-                        if (null != unsend) {
-                            List<String> validAddrList = new ArrayList<>();
-                            for (int i = 0; i < unsend.length; i++) {
-                                validAddrList.add(unsend[i].toString());
-                            }
-                            if(validAddrList.size() != 0) {
-                                mailSend.setMailAddress(validAddrList);
-                                mailSend.send();
-                            } else {
-                                task.setIsMailSuccess(BooleanEnum.NO);
-                                task.setMailMessage("没有合法的收件人");
-                            }
+        for(ReportTask task : taskList) {
+            task.setIsMailSuccess(BooleanEnum.YES);
+            task.setIsSuccess(BooleanEnum.YES);
+            task.setMailMessage("发送成功!");
+            task.setMessage("执行成功!");
+            task.setExecTime(new Date());
+            task.setReportInfo(info);
+            task.setReportSender(info.getReportSender());
+            if(task.getHtmlContent() == null) {
+                task.setHtmlContent("  ");
+            }
+            
+            if(task.getMailAddress() != null && task.getMailAddress() != "") {
+                MailSendUtil mailSend = buildMailSend(info, task);
+                try {
+                    mailSend.send();
+                } catch (SendFailedException se) {
+                    se.printStackTrace();
+                    Address[] unsend = se.getValidUnsentAddresses();
+                    if (null != unsend) {
+                        List<String> validAddrList = new ArrayList<>();
+                        for (int i = 0; i < unsend.length; i++) {
+                            validAddrList.add(unsend[i].toString());
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        task.setIsMailSuccess(BooleanEnum.NO);
-                        task.setMailMessage(e.getMessage());
-                    } finally {
-                        getSession().persist(task);
+                        if(validAddrList.size() != 0) {
+                            mailSend.setMailAddress(validAddrList);
+                            mailSend.setMailCCAddress(null);
+                            mailSend.send();
+                        } else {
+                            task.setIsMailSuccess(BooleanEnum.NO);
+                            task.setMailMessage("没有合法的收件人");
+                        }
                     }
-                } else {
-                    System.out.println(task.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    task.setIsMailSuccess(BooleanEnum.NO);
+                    task.setMailMessage(e.getMessage());
+                } finally {
+                    getSession().persist(task);
                 }
+            } else {
+                System.out.println(task.toString());
             }
         }
     }
 
     private MailSendUtil buildMailSend(ReportInfo info, ReportTask task) {
         List<Attachment> attachments = new ArrayList<>();
-        File file = new File(task.getFilePath());
-        if (file != null && file.exists()) {
-            String lastfix = task.getFileName().substring(task.getFileName().lastIndexOf("."), task.getFileName().length());
-            attachments.add(new Attachment(file, info.getExcelName() + lastfix));
+        if(!StringUtils.isBlank(task.getFilePath())) {
+        	File file = new File(task.getFilePath());
+        	if (file != null && file.exists()) {
+        		String lastfix = task.getFileName().substring(task.getFileName().lastIndexOf("."), task.getFileName().length());
+        		attachments.add(new Attachment(file, info.getExcelName() + lastfix));
+        	}
         }
         
         List<String> mailAddressList = new ArrayList<>();

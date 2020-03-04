@@ -18,7 +18,7 @@ public class ReportExcelServiceImpl extends HibernateServiceSupport implements R
 	@Override
 	public Page<ReportExcel> pageList(ReportExcel excel, int pn) {
 		if(excel!=null){
-			return getSession().getCriteria(ReportExcel.class).addRestriction(excel, OperMode.LIKE, "reportInfo.id", "sheetName","id").getResultList(pn);
+			return getSession().getCriteria(ReportExcel.class).addRestriction(excel, OperMode.EQ, "reportInfo.id", "sheetName","id").getResultList(pn);
 		} else {
 			return getSession().getCriteria(ReportExcel.class).getResultList(pn);
 		}

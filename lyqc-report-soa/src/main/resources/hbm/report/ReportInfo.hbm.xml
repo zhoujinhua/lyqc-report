@@ -41,7 +41,7 @@
             <key>
                 <column name="report_id" not-null="true"/>
             </key>
-            <one-to-many class="com.liyun.car.report.entity.ReportInfoDetail" />
+            <one-to-many class="com.liyun.car.report.entity.ReportInfoDetail" not-found="ignore"/>
         </bag>
         <bag name="reportExcels" lazy="false" cascade="all-delete-orphan" inverse="true">
             <key>
@@ -56,10 +56,10 @@
             <one-to-many class="com.liyun.car.report.entity.ReportViewer" not-found="ignore"/>
         </bag>
         
-        <many-to-one name="reportSender" class="com.liyun.car.report.entity.ReportSender">
+        <many-to-one name="reportSender" class="com.liyun.car.report.entity.ReportSender" not-found="ignore">
         	<column name="sender_id"></column>
         </many-to-one>
-        <many-to-one name="reportDetail" class="com.liyun.car.report.entity.ReportDetail" fetch="select">
+        <many-to-one name="reportDetail" class="com.liyun.car.report.entity.ReportDetail" fetch="select" not-found="ignore">
         	<column name="detail_id"></column>
         </many-to-one>
     </class>

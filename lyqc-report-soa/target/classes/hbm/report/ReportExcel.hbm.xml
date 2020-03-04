@@ -16,7 +16,7 @@
         <property name="createTime" type="java.sql.Timestamp">
             <column name="create_time" />
         </property>
-        <many-to-one name="reportInfo" class="com.liyun.car.report.entity.ReportInfo" lazy="false">
+        <many-to-one name="reportInfo" class="com.liyun.car.report.entity.ReportInfo" lazy="false" not-found="ignore">
         	<column name="report_id"></column>
         </many-to-one>
         <bag name="reportExcelDetails" lazy="false" cascade="all-delete-orphan" inverse="true" order-by="seq">
