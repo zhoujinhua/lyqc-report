@@ -157,4 +157,11 @@ public class ReportInfoController {
 		}
 		return "success";
 	}
+	
+	
+	@RequestMapping("health")
+	@ResponseBody
+	public String health(HttpServletRequest request,ReportInfo info){
+		return "success";
+	}
 }
